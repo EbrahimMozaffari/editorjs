@@ -1,11 +1,10 @@
 <template>
-  <div id="app">
-    <div class="demo" dir="rtl">
+  <div class="demo" dir="rtl">
     <h1 style="text-align: center">ویرایشگر</h1>
     <editor ref="editor" :config="config" :initialized="onInitialized" />
   </div>
-  </div>
 </template>
+
 <script>
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
@@ -55,7 +54,7 @@ export default {
             inlineToolbar: true,
             tunes: ["anyTuneName"],
             config: {
-              placeholder: " عنوان  ",
+              placeholder: "Enter a header",
               levels: [1, 2, 3, 4],
               defaultLevel: 3,
               tunes: ["alignmentSetting"],
@@ -76,34 +75,29 @@ export default {
                 youtube: true,
                 coub: true,
                 aparat: true,
-                "tebyan": true,
-                // codepen: {
-                //   regex: /https?:\/\/codepen.io\/([^\/\?\&]*)\/pen\/([^\/\?\&]*)/,
-                //   embedUrl:
-                //     "https://codepen.io/<%= remote_id %>?height=300&theme-id=0&default-tab=css,result&embed-version=2",
-                //   html:
-                //     "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
-                //   height: 300,
-                //   width: 600,
-                //   id: (groups) => groups.join("/embed/"),
-                // },
-
-                // "tebyan": {
-                //   regex: /https?:\/\/film\.tebyan\.net\/film\/([0-9]*)/,
-                //   //regex: /https?:\/\/film.tebyan.net\/film\/([^\/\?\&]*)/,
-                //   embedUrl:
-                //   "https://www.aparat.com/video/video/embed/videohash/hCUGF/vt/frame",
-
-                //   html:
-                //     "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
-                //   height: 300,
-                //   width: 600,
-                //   //id: (groups) => groups.join("/embed/"),
-                // },
+                codepen: {
+                  regex: /https?:\/\/codepen.io\/([^\/\?\&]*)\/pen\/([^\/\?\&]*)/,
+                  embedUrl:
+                    "https://codepen.io/<%= remote_id %>?height=300&theme-id=0&default-tab=css,result&embed-version=2",
+                  html:
+                    "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
+                  height: 300,
+                  width: 600,
+                  id: (groups) => groups.join("/embed/"),
+                },
+                tebyan: {
+                  regex: /https?:\/\/film.tebyan.net\/film\/([^\/\?\&]*)/,
+                  embedUrl:
+                    "https://film.tebyan.net/film/<%= remote_id %>?height=300&theme-id=0&default-tab=css,result&embed-version=2",
+                  html:
+                    "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
+                  height: 300,
+                  width: 600,
+                  id: (groups) => groups.join("/embed/"),
+                },
               },
             },
           },
-//                   // "https://film.tebyan.net/film/<%= remote_id %>?height=300&theme-id=0&default-tab=css,result&embed-version=2",
 
           table: {
             class: Table,
@@ -391,7 +385,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style >
 .ce-toolbar__actions {
   left: -30px;
   right: inherit !important;
@@ -419,10 +413,5 @@ export default {
   .tc-editor {
     max-width: 100%;
   }
-  .ct__content{
-    display: none;
-  }
 }
-@import 'assets/scss/style';
 </style>
-
