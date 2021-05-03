@@ -26,6 +26,7 @@
     "@editorjs/warning": "^1.2.0",
     "core-js": "^3.6.5",
     "editorjs-alert": "^1.0.3",
+    "editorjs-header-with-anchor": "^2.6.0",
     "editorjs-paragraph-with-alignment": "^3.0.0",
     "editorjs-text-alignment-blocktune": "^1.0.2",
     "vue": "^2.6.11",
@@ -40,8 +41,10 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "editorjs-inline-image": "^0.1.1",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
+    "simple-image-editorjs": "^1.4.0",
     "vue-template-compiler": "^2.6.11"
   }
 }

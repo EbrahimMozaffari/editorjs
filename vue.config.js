@@ -1,6 +1,5 @@
 module.exports = {
-
-    // devServer: {
-    //     host: 'localhost/coin',
-    //   }
-}
+    devServer: {
+          proxy: 'http://ebrahimmozaffari.ir/demo/about-us/',
+      }
+  }

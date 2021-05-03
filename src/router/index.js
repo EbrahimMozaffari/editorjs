@@ -17,6 +17,12 @@ const routes = [
     component: () => import('../views/Test.vue')
   },
   {
+    path: '/cube',
+    name: 'Cube',
+
+    component: () => import('../views/Cube.vue')
+  },
+  {
     path: '/upload',
     name: 'Upload',
 
