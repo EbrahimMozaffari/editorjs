@@ -12,7 +12,7 @@ import Header from "@editorjs/header";
 // import Header1 from "editorjs-header-with-anchor";
 import List from "@editorjs/list";
 import CodeTool from "@editorjs/code";
-// import Paragraph from "@editorjs/paragraph";
+ import Paragraph from "@editorjs/paragraph";
 import Embed from "@editorjs/embed";
 import Table from "@editorjs/table";
 import Checklist from "@editorjs/checklist";
@@ -25,7 +25,7 @@ import Delimiter from "@editorjs/delimiter";
 // import myDelimiter from "@editorjs/myplugin";
 // import SimpleImage from "@editorjs/simple-image";
 import ImageTool from "@editorjs/image";
-import Paragraph from "editorjs-paragraph-with-alignment";
+//import Paragraph from "editorjs-paragraph-with-alignment";
 import InlineImage from "editorjs-inline-image";
 import SimpleImage from "simple-image-editorjs";
 
@@ -51,6 +51,7 @@ export default {
           paragraph: {
             class: Paragraph,
             inlineToolbar: true,
+            tunes: ["anyTuneName"],
             config: {
               placeholder: "نوشتن را شروع کنید...",
             },
