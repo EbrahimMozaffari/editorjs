@@ -151,7 +151,7 @@ export default {
             inlineToolbar: true,
             config: {
               endpoints: {
-                byFile: "http://ebrahimmozaffari.ir/demo/about-us/", // Your backend file uploader endpoint
+                byFile: "/", // Your backend file uploader endpoint
                 //byUrl: "http://localhost:3000/response", // Your endpoint that provides uploading by Url
               },
             //   actions: [
