@@ -24,12 +24,13 @@
           <div class="container">
             <div class="row">
                 <div class="col-6 col-md-4 d-flex my-1" v-for="item in dataGallery" :key="item.id">
-                <img :src="item.src" width="80%" alt="" />
+                <img :src="item.url" width="80%" alt="" />
              
                     <button
                       type="button"
+                      data-dismiss="modal"
                       class="btn btn-primary"
-                      v-clipboard:copy="item.src"
+                      v-clipboard:copy="`${item.url}++${item.caption}++${item.alt}`"
                       v-clipboard:success="onCopy"
                       v-clipboard:error="onError"
                     >
@@ -96,6 +97,7 @@ export default {
   methods: {
     onCopy: function (e) {
       console.log("You just copied: " + e.text);
+
     },
     onError: function (e) {
       console.log("Failed to copy texts");
@@ -103,6 +105,12 @@ export default {
   },
   mounted() {
     // console.log("modalcreated");
+  },
+    created() {
+    $('#exampleModal').on('shown.bs.modal', function (e) {
+  // if (!data) return e.preventDefault() // stops modal from being shown
+  console.log("show modal")
+})
   },
 };
 </script>

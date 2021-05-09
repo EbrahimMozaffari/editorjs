@@ -10,38 +10,36 @@ export class MyTool {
     return true;
   }
 
-  constructor({data, api, config, readOnly, block}) {
+  constructor({ data, api, config, readOnly, block }) {
     this.data = data;
     this.api = api;
     this.readOnly = readOnly;
     this.wrapper = undefined;
-    
   }
 
   render() {
-      console.log("readOnly",this.readOnly);
-      this.wrapper = document.createElement("wraper");
-      if(this.readOnly){
-        this._readOnlyImage(this.data);
-      }else{
-        if (this.data && this.data.url) {
-            this._uploadedImage(this.data);
-          } else {
-            const input = document.createElement("input");
-            input.placeholder = "آدرس عکس خود را در این قسمت وارد نمائید...";
-            input.value = this.data && this.data.url ? this.data.url : "";
-            input.classList.add("cdx-input","image-tool__caption");
-            this.wrapper.appendChild(input);
-            this._click();
-            input.addEventListener("paste", (event) => {
-              this._createImage(event.clipboardData.getData("text"));
-            });
-          }
+    console.log("readOnly", this.readOnly);
+    this.wrapper = document.createElement("DIV");
+    this.wrapper.classList.add("mytoolblock");
+    if (this.readOnly) {
+      this._readOnlyImage(this.data);
+    } else {
+      if (this.data && this.data.url) {
+        //this._createImage(this.data) 
+         this._uploadedImage(this.data);
+      } else {
+        const input = document.createElement("input");
+        input.placeholder = "آدرس عکس خود را در این قسمت وارد نمائید...";
+        input.value = this.data && this.data.url ? this.data.url : "";
+        input.classList.add("cdx-input", "image-tool__caption");
+        this.wrapper.appendChild(input);
+        this._click();
+        input.addEventListener("paste", (event) => {
+          this._createImage(event.clipboardData.getData("text"));
+        });
       }
-    
-    
+    }
 
-    
     //  this.wrapper = document.createElement("DIV");
     // this.wrapper.setAttribute("v-model", "false");
     // this.wrapper.setAttribute("width", "500");
@@ -110,45 +108,51 @@ export class MyTool {
     document.getElementById("mybtn1").click();
   }
 
-  _createImage(url) {
+  _createImage(data) {
+    let res = data.split("++");
     const image = document.createElement("img");
     const caption = document.createElement("input");
+    const alt = document.createElement("input");
 
-    image.src = url;
-
+    image.alt = res[2] ? res[2] : "";
+    image.src = res[0] ? res[0] : "";
     image.setAttribute("width", "100%");
-    image.setAttribute("alt", "salam");
     image.classList.add("image-tool__image");
-    caption.classList.add("cdx-input","image-tool__caption");
-    // var attrs = {
-    //     "width":"100%", "padding":"5px", "border-radius":"3px", "border":"solid 1px #c7c4c4", "margin-top":"5px"
-    // };
-    // setAttributes(caption, attrs);
-    caption.placeholder = "نوشتن عنوان برای عکس (اختیاری)";
+    caption.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
+    alt.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
 
+    caption.value= res[1] ? res[1] : "";
+    alt.value= res[2] ? res[2] : "";
+    caption.placeholder =  "نوشتن عنوان برای عکس (اختیاری)";
+    alt.placeholder =  "نوشتن alt برای عکس (اختیاری)";
     this.wrapper.innerHTML = "";
     this.wrapper.appendChild(image);
     this.wrapper.appendChild(caption);
-    // function setAttributes(el, attrs) {
-    //   for (var key in attrs) {
-    //     el.setAttribute(key, attrs[key]);
-    //   }
-    // }
+    this.wrapper.appendChild(alt);
+
   }
   _uploadedImage(data) {
+    
     const image = document.createElement("img");
     const caption = document.createElement("input");
-    image.src = data.url;
-    image.setAttribute("alt", "salam");
+    const alt = document.createElement("input");
+
+    image.alt = data.alt ? data.alt : "";
+    image.src = data.url ? data.url : "";
     image.setAttribute("width", "100%");
     image.classList.add("image-tool__image");
-    caption.classList.add("cdx-input","image-tool__caption");
-    // caption.classList.add("figcaption");
-    caption.value = data.caption;
-    caption.placeholder = "نوشتن عنوان برای عکس (اختیاری)";
+    caption.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
+    alt.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
+
+    caption.value= data.caption ? data.caption : "";
+    alt.value= data.alt ? data.alt : "";
+    caption.placeholder =  "نوشتن عنوان برای عکس (اختیاری)";
+    alt.placeholder =  "نوشتن alt برای عکس (اختیاری)";
     this.wrapper.innerHTML = "";
     this.wrapper.appendChild(image);
     this.wrapper.appendChild(caption);
+    this.wrapper.appendChild(alt);
+
   }
   _readOnlyImage(data) {
     const image = document.createElement("img");
@@ -166,30 +170,33 @@ export class MyTool {
     this.wrapper.appendChild(caption);
   }
 
+      // function setAttributes(el, attrs) {
+    //   for (var key in attrs) {
+    //     el.setAttribute(key, attrs[key]);
+    //   }
+    // }
+
   save(blockContent) {
-     // if()
+    // if()
     //  const mark = blockContent.querySelector('wraper');
     const image = blockContent.querySelector("img");
-    const caption = blockContent.querySelector("input");
+    const caption = blockContent.querySelectorAll("input");
+    //const alt = blockContent.querySelector("input");
     // console.log("this.wrapper",this.wrapper);
-    
-if(image){
-    return {
-      url: image.src,
-      caption: caption.value,
-    };
-}else{
-    //console.log("blockContent",blockContent)
-    this.wrapper.innerHTML ="";
-    //return false;
- 
-    // this.wrapper.remove();
-}
-    
+
+    if (image) {
+      return {
+        url: image.src,
+        caption: caption[0].value,
+        alt:  caption[1].value,
+      };
+    } else {
+      this.wrapper.innerHTML = "";
+
+
+      // this.wrapper.remove();
+    }
   }
-//   toggleReadonly(status){
-//     console.log("readOnly-status",status);
-//     return this.wrapper;
-// }
+
   // ... validate
 }

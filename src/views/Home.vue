@@ -53,11 +53,10 @@ export default {
     return {
       showModal: false,
       config: {
-        readOnly: true,
+        // readOnly: true,
         // autofocus: true,
         tools: {
           mine: MyTool,
-          
           anyTuneName: {
             class: require("editorjs-text-alignment-blocktune/dist/bundle"),
             config: {
@@ -85,9 +84,8 @@ export default {
             tunes: ["anyTuneName"],
             config: {
               placeholder: " عنوان  ",
-              levels: [1, 2, 3, 4,5,6],
+              levels: [1, 2, 3, 4, 5, 6],
               defaultLevel: 3,
-              
             },
           },
           // header1: {
@@ -330,12 +328,21 @@ export default {
         data: {
           blocks: [
             {
-              type: "header",
+              type: "mine",
               data: {
-                text: "dsadasds",
-                level: 2,
+                url:
+                  "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+                caption: "sadasd",
+                alt: "salam in yek alt ast0",
               },
             },
+            // {
+            //   type: "header",
+            //   data: {
+            //     text: "dsadasds",
+            //     level: 2,
+            //   },
+            // },
             // {
             //   type: "image",
             //   data: {
@@ -348,15 +355,7 @@ export default {
             //     withBackground: false,
             //   },
             // },
-            {
-              type: "mine",
-              data: {
-                url:
-                  "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
-                caption: "sadasd",
-                alt:"salam in yek alt ast0"
-              },
-            },
+
             // {
             //   type: "image",
             //   data: {
@@ -365,8 +364,6 @@ export default {
             //     caption: "sadasd",
             //   },
             // },
-
-            
 
             // {
             //   type: "image",
@@ -514,12 +511,10 @@ export default {
         .then((data) => {
           // Do what you want with the data here
           // console.log(data.blocks);
-          var newArray = data.blocks.filter( (el)=> {
-            return (
-              el.data !==undefined
-            );
+          var newArray = data.blocks.filter((el) => {
+            return el.data !== undefined;
           });
-          console.log("newArray",newArray);
+          console.log("newArray", newArray);
           // data.blocks.forEach((element) => {
           //   if (element.data === undefined) {
           //     // delete.data.blocks[key];
@@ -547,6 +542,7 @@ export default {
       return this.$store.getters["app/getGallery"];
     },
   },
+
   components: {
     Modal,
   },
@@ -554,6 +550,14 @@ export default {
 </script>
 
 <style lang="scss">
+.mytoolblock {
+  margin: 0 0 10px 10px;
+  // border-bottom: solid 1px rgb(194, 194, 194);
+}
+.mytoolblock input {
+  margin: 0 0 10px 0;
+  // width: 50%;
+}
 .svg-icon {
   width: 1.5em;
   height: 1.5em;
