@@ -23,10 +23,10 @@ const routes = [
     component: () => import('../views/Cube.vue')
   },
   {
-    path: '/upload',
-    name: 'Upload',
+    path: '/mytool',
+    name: 'Mytool',
 
-    component: () => import('../views/upload.vue')
+    component: () => import('../views/Mytool.vue')
   }
 ]
 

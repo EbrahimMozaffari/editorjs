@@ -1,5 +1,18 @@
 <template>
   <div id="home">
+    <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      id="mybtn1"
+      class="btn btn-primary d-none"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      @click="fetchData"
+    >
+      Launch demo modal
+    </button>
+    <Modal :dataGallery="GalleryData" />
     <div class="demo" dir="rtl">
       <h1 style="text-align: center">ویرایشگر</h1>
       <editor ref="editor" :config="config" :initialized="onInitialized" />
@@ -12,7 +25,7 @@ import Header from "@editorjs/header";
 // import Header1 from "editorjs-header-with-anchor";
 import List from "@editorjs/list";
 import CodeTool from "@editorjs/code";
- import Paragraph from "@editorjs/paragraph";
+import Paragraph from "@editorjs/paragraph";
 import Embed from "@editorjs/embed";
 import Table from "@editorjs/table";
 import Checklist from "@editorjs/checklist";
@@ -31,13 +44,20 @@ import SimpleImage from "simple-image-editorjs";
 
 //import Embed from "@editorjs/embed";
 
+import { MyTool } from "../classes/firstplugin";
+import Modal from "./modal";
+
 export default {
   name: "Home",
   data() {
     return {
+      showModal: false,
       config: {
+        readOnly: true,
         // autofocus: true,
         tools: {
+          mine: MyTool,
+          
           anyTuneName: {
             class: require("editorjs-text-alignment-blocktune/dist/bundle"),
             config: {
@@ -48,6 +68,9 @@ export default {
               },
             },
           },
+          // mytool:{
+          //   class:firstimage,
+          // },
           paragraph: {
             class: Paragraph,
             inlineToolbar: true,
@@ -62,9 +85,9 @@ export default {
             tunes: ["anyTuneName"],
             config: {
               placeholder: " عنوان  ",
-              levels: [1, 2, 3, 4],
+              levels: [1, 2, 3, 4,5,6],
               defaultLevel: 3,
-              tunes: ["alignmentSetting"],
+              
             },
           },
           // header1: {
@@ -86,7 +109,18 @@ export default {
                 youtube: true,
                 coub: true,
                 aparat: true,
-                tebyan: true,
+                // tebyan: true,
+                myEMbed: true,
+                myEmbed: {
+                  regex: /http:\/\/ebrahimmozaffari.ir\/demo\/wp-content\/uploads\/2019\/12\/gloabl-tech.jpg/,
+                  embedUrl:
+                    "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+                  html:
+                    '<img width="600" height="300" style="margin: 0 auto;"  />',
+                  height: 300,
+                  width: 600,
+                },
+
                 // "tebyan": {
                 //   regex: /https?:\/\/film\.tebyan\.net\/film\/([0-9]*)/,
                 //   //regex: /https?:\/\/film.tebyan.net\/film\/([^\/\?\&]*)/,
@@ -115,30 +149,31 @@ export default {
           },
           checklist: {
             class: Checklist,
+            tunes: ["anyTuneName"],
           },
           Marker: {
             class: Marker,
             shortcut: "CMD+SHIFT+M",
           },
-          warning: {
-            class: Warning,
-            inlineToolbar: true,
-            shortcut: "CMD+SHIFT+W",
-            config: {
-              titlePlaceholder: "Title",
-              messagePlaceholder: "Message",
-            },
-          },
+          // warning: {
+          //   class: Warning,
+          //   inlineToolbar: true,
+          //   shortcut: "CMD+SHIFT+W",
+          //   config: {
+          //     titlePlaceholder: "Title",
+          //     messagePlaceholder: "Message",
+          //   },
+          // },
           raw: RawTool,
-          quote: {
-            class: Quote,
-            inlineToolbar: true,
-            shortcut: "CMD+SHIFT+O",
-            config: {
-              quotePlaceholder: "Enter a quote",
-              captionPlaceholder: "Quote's author",
-            },
-          },
+          // quote: {
+          //   class: Quote,
+          //   inlineToolbar: true,
+          //   shortcut: "CMD+SHIFT+O",
+          //   config: {
+          //     quotePlaceholder: "Enter a quote",
+          //     captionPlaceholder: "Quote's author",
+          //   },
+          // },
           inlineCode: {
             class: InlineCode,
             shortcut: "CMD+SHIFT+M",
@@ -154,22 +189,22 @@ export default {
                 byFile: "/", // Your backend file uploader endpoint
                 //byUrl: "http://localhost:3000/response", // Your endpoint that provides uploading by Url
               },
-            //   actions: [
-            //   {
-            //     name: "new_button",
-            //     icon: "<svg>...</svg>",
-            //     title: "New Button",
-            //     action: (name) => {
-            //       alert(`${name} button clicked`);
-            //       return false;
-            //     },
-            //   },
-            // ],
+              //   actions: [
+              //   {
+              //     name: "new_button",
+              //     icon: "<svg>...</svg>",
+              //     title: "New Button",
+              //     action: (name) => {
+              //       alert(`${name} button clicked`);
+              //       return false;
+              //     },
+              //   },
+              // ],
               field: "image",
               types: "image/*",
             },
-            
           },
+
           // image: {
           //   class: InlineImage,
           //   inlineToolbar: true,
@@ -297,10 +332,54 @@ export default {
             {
               type: "header",
               data: {
-                text: "",
+                text: "dsadasds",
                 level: 2,
               },
             },
+            // {
+            //   type: "image",
+            //   data: {
+            //     file: {
+            //       url: "https://codex.so/public/app/img/external/codex2x.png",
+            //     },
+            //     caption: "sadadsd",
+            //     withBorder: false,
+            //     stretched: false,
+            //     withBackground: false,
+            //   },
+            // },
+            {
+              type: "mine",
+              data: {
+                url:
+                  "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+                caption: "sadasd",
+                alt:"salam in yek alt ast0"
+              },
+            },
+            // {
+            //   type: "image",
+            //   data: {
+            //     url:
+            //       "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+            //     caption: "sadasd",
+            //   },
+            // },
+
+            
+
+            // {
+            //   type: "image",
+            //   data: {
+            //     file: {
+            //       url: "https://codex.so/public/app/img/external/codex2x.png",
+            //     },
+            //     caption: "sadadsd",
+            //     withBorder: false,
+            //     stretched: false,
+            //     withBackground: false,
+            //   },
+            // },
           ],
         },
         // data: {
@@ -421,31 +500,88 @@ export default {
       console.log(editor);
     },
     invokeSave() {
+      console.log();
+      // this.$refs.editor
+      //   .save()
+      //   .then((outputData) => {
+      //     console.log("Article data: ", outputData);
+      //   })
+      //   .catch((error) => {
+      //     console.log("Saving failed: ", error);
+      //   });
       this.$refs.editor._data.state.editor
         .save()
         .then((data) => {
           // Do what you want with the data here
-          console.log(data);
+          // console.log(data.blocks);
+          var newArray = data.blocks.filter( (el)=> {
+            return (
+              el.data !==undefined
+            );
+          });
+          console.log("newArray",newArray);
+          // data.blocks.forEach((element) => {
+          //   if (element.data === undefined) {
+          //     // delete.data.blocks[key];
+          //     // console.log("key", key);
+          //   }
+          //   //console.log("element",element);
+          // });
+          // Object.keys(obj).forEach(key => obj[key] === undefined ? delete obj[key] : {});
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    // changed(editor){
-    //     editor
-    //         .save()
-    //         .then((outputData) => {
-    //           console.log("Article data: ", outputData);
-    //         })
-    //         .catch((error) => {
-    //           console.log("Saving failed: ", error);
-    //         });
-    // }
+    fetchData() {
+      let data = this.$store.state.app.gallery;
+      if (data.length == 0) {
+        console.log("fetch dataaaaa");
+        this.$store.dispatch("app/fetchGalleryData");
+      }
+    },
+  },
+  computed: {
+    GalleryData() {
+      //console.log("ddddddd",this.$store.getters["app/getGallery"]);
+      return this.$store.getters["app/getGallery"];
+    },
+  },
+  components: {
+    Modal,
   },
 };
 </script>
 
 <style lang="scss">
+.svg-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #707684;
+}
+
+.svg-icon circle {
+  stroke: #4691f6;
+  stroke-width: 3;
+}
+.figcaption {
+  position: relative;
+  display: block;
+  font-size: 0.8em;
+  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0;
+  font-style: normal;
+  text-align: center;
+  padding: 5px 0;
+  font-weight: 200;
+  margin-top: 5px;
+}
 .demo {
   padding: 10px 25px;
 }
@@ -479,6 +615,13 @@ export default {
   .ct__content {
     display: none;
   }
+}
+.captionImg {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 1px #c7c4c4;
+  margin-top: 5px;
 }
 @import "@/assets/scss/style";
 </style>

@@ -3,15 +3,30 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
- import Editor from 'vue-editor-js/src'
+import Bootstrap from 'bootstrap'
+import Jquery from 'jquery'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import Editor from 'vue-editor-js/src'
+import vuetify from './plugins/vuetify'
+import axios from "axios"
+import VueClipboard from 'vue-clipboard2'
+VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
+
+
+window.axios = axios;
+
 // import Editor from '@editorjs/editorjs';
 Vue.use(Editor);
-
-
+// Vue.use(Bootstrap);
+window.$ = Jquery;
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
