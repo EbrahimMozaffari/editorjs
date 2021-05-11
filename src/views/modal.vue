@@ -96,21 +96,20 @@ export default {
   },
   methods: {
     onCopy: function (e) {
-      console.log("You just copied: " + e.text);
-
+      //console.log("You just copied: " + e.text);
+      //let inputPosition = document.querySelectorAll('focusInput');
+      //console.log("inputPosition",inputPosition)
+       // let length = inputPosition.length;
+        
+        // inputPosition[length-1].focus();
     },
     onError: function (e) {
       console.log("Failed to copy texts");
     },
   },
-  mounted() {
-    // console.log("modalcreated");
-  },
+
     created() {
-    $('#exampleModal').on('shown.bs.modal', function (e) {
-  // if (!data) return e.preventDefault() // stops modal from being shown
-  console.log("show modal")
-})
+
   },
 };
 </script>

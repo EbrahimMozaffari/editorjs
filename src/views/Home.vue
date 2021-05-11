@@ -536,6 +536,18 @@ export default {
       }
     },
   },
+    mounted() {
+    // console.log("modalcreated");
+        $('#exampleModal').on('hide.bs.modal', function (e) {
+  // if (!data) return e.preventDefault() // stops modal from being shown
+  console.log("hide modal")
+//    let inputPosition = document.querySelectorAll('focusInput');
+//       console.log("inputPosition",inputPosition)
+
+//document.getElementById("myInputfocus").focus();
+$("#myInputfocus").focus();
+})
+  },
   computed: {
     GalleryData() {
       //console.log("ddddddd",this.$store.getters["app/getGallery"]);

@@ -31,7 +31,8 @@ export class MyTool {
         const input = document.createElement("input");
         input.placeholder = "آدرس عکس خود را در این قسمت وارد نمائید...";
         input.value = this.data && this.data.url ? this.data.url : "";
-        input.classList.add("cdx-input", "image-tool__caption");
+        input.classList.add("cdx-input", "image-tool__caption","focusInput");
+        input.setAttribute("id", "myInputfocus");
         this.wrapper.appendChild(input);
         this._click();
         input.addEventListener("paste", (event) => {
