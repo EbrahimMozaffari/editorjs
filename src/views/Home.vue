@@ -102,40 +102,40 @@ export default {
           code: {
             class: CodeTool,
           },
-          embed: {
-            class: Embed,
-            config: {
-              services: {
-                youtube: true,
-                coub: true,
-                aparat: true,
-                // tebyan: true,
-                myEMbed: true,
-                myEmbed: {
-                  regex: /http:\/\/ebrahimmozaffari.ir\/demo\/wp-content\/uploads\/2019\/12\/gloabl-tech.jpg/,
-                  embedUrl:
-                    "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
-                  html:
-                    '<img width="600" height="300" style="margin: 0 auto;"  />',
-                  height: 300,
-                  width: 600,
-                },
+          // embed: {
+          //   class: Embed,
+          //   config: {
+          //     services: {
+          //       youtube: true,
+          //       coub: true,
+          //       aparat: true,
+          //       // tebyan: true,
+          //       myEMbed: true,
+          //       myEmbed: {
+          //         regex: /http:\/\/ebrahimmozaffari.ir\/demo\/wp-content\/uploads\/2019\/12\/gloabl-tech.jpg/,
+          //         embedUrl:
+          //           "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+          //         html:
+          //           '<img width="600" height="300" style="margin: 0 auto;"  />',
+          //         height: 300,
+          //         width: 600,
+          //       },
 
-                // "tebyan": {
-                //   regex: /https?:\/\/film\.tebyan\.net\/film\/([0-9]*)/,
-                //   //regex: /https?:\/\/film.tebyan.net\/film\/([^\/\?\&]*)/,
-                //   embedUrl:
-                //   "https://www.aparat.com/video/video/embed/videohash/hCUGF/vt/frame",
+          //       // "tebyan": {
+          //       //   regex: /https?:\/\/film\.tebyan\.net\/film\/([0-9]*)/,
+          //       //   //regex: /https?:\/\/film.tebyan.net\/film\/([^\/\?\&]*)/,
+          //       //   embedUrl:
+          //       //   "https://www.aparat.com/video/video/embed/videohash/hCUGF/vt/frame",
 
-                //   html:
-                //     "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
-                //   height: 300,
-                //   width: 600,
-                //   //id: (groups) => groups.join("/embed/"),
-                // },
-              },
-            },
-          },
+          //       //   html:
+          //       //     "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
+          //       //   height: 300,
+          //       //   width: 600,
+          //       //   //id: (groups) => groups.join("/embed/"),
+          //       // },
+          //     },
+          //   },
+          // },
           // image: SimpleImage,
           //                   //
 
@@ -164,7 +164,8 @@ export default {
           //     messagePlaceholder: "Message",
           //   },
           // },
-          raw: RawTool,
+          delimiter: Delimiter,
+          // raw: RawTool,
           // quote: {
           //   class: Quote,
           //   inlineToolbar: true,
@@ -180,30 +181,30 @@ export default {
           },
 
           //   myDelimiter: myDelimiter,
-          delimiter: Delimiter,
-          image: {
-            class: ImageTool,
-            inlineToolbar: true,
-            config: {
-              endpoints: {
-                byFile: "/", // Your backend file uploader endpoint
-                //byUrl: "http://localhost:3000/response", // Your endpoint that provides uploading by Url
-              },
-              //   actions: [
-              //   {
-              //     name: "new_button",
-              //     icon: "<svg>...</svg>",
-              //     title: "New Button",
-              //     action: (name) => {
-              //       alert(`${name} button clicked`);
-              //       return false;
-              //     },
-              //   },
-              // ],
-              field: "image",
-              types: "image/*",
-            },
-          },
+          
+          // image: {
+          //   class: ImageTool,
+          //   inlineToolbar: true,
+          //   config: {
+          //     endpoints: {
+          //       byFile: "/", // Your backend file uploader endpoint
+          //       //byUrl: "http://localhost:3000/response", // Your endpoint that provides uploading by Url
+          //     },
+          //     //   actions: [
+          //     //   {
+          //     //     name: "new_button",
+          //     //     icon: "<svg>...</svg>",
+          //     //     title: "New Button",
+          //     //     action: (name) => {
+          //     //       alert(`${name} button clicked`);
+          //     //       return false;
+          //     //     },
+          //     //   },
+          //     // ],
+          //     field: "image",
+          //     types: "image/*",
+          //   },
+          // },
 
           // image: {
           //   class: InlineImage,
