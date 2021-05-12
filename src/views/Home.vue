@@ -54,7 +54,7 @@ export default {
     return {
       showModal: false,
       config: {
-         readOnly: true,
+        //  readOnly: true,
         // autofocus: true,
         tools: {
           imgGallery: MyTool,
@@ -329,31 +329,31 @@ export default {
         },
         data: {
           blocks: [
-            {
-              type: "header",
-              data: {
-                text: "چیزی که کاربر میبینه",
-                level: 4,
-              },
-            },
-            {
-              type: "imgGallery",
-              data: {
-                url:
-                  "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
-                caption: "عنوان عکس 1",
-                alt: "salam in yek alt ast0",
-              },
-            },
-             {
-               type: "uploaderImg",
-               data: {
-                 url:
-                   "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2021/05/Slider-Image-3-1024x684-8.jpg",
-                 caption: "عنوان عکس 2",
-                 alt: "22223333",
-               },
-             },
+            // {
+            //   type: "header",
+            //   data: {
+            //     text: "چیزی که کاربر میبینه",
+            //     level: 4,
+            //   },
+            // },
+            // {
+            //   type: "imgGallery",
+            //   data: {
+            //     url:
+            //       "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+            //     caption: "عنوان عکس 1",
+            //     alt: "salam in yek alt ast0",
+            //   },
+            // },
+            //  {
+            //    type: "uploaderImg",
+            //    data: {
+            //      url:
+            //        "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2021/05/Slider-Image-3-1024x684-8.jpg",
+            //      caption: "عنوان عکس 2",
+            //      alt: "22223333",
+            //    },
+            //  },
             // {
 
             //   type: "header",
