@@ -35,9 +35,23 @@ export class MyTool {
         input.setAttribute("id", "myInputfocus");
         this.wrapper.appendChild(input);
         this._click();
+        // this.focusEditor();
         input.addEventListener("paste", (event) => {
           this._createImage(event.clipboardData.getData("text"));
         });
+        input.addEventListener('blur', (event) => {
+          if(input.value){
+            this._createImage(input.value);
+          }
+          
+          //console.log("changed input",input.value)
+          //const result = document.querySelector('.result');
+         // result.textContent = `You like ${event.target.value}`;
+        });
+        // input.addEventListener("change", myfile, true);
+        // function myfile() {
+        //   console.log("changed input")
+        // }
       }
     }
 
@@ -104,6 +118,9 @@ export class MyTool {
     //   });
 
     return this.wrapper;
+  }
+  focusEditor() {
+    this.api.caret.focus(true);
   }
   _click() {
     document.getElementById("mybtn1").click();

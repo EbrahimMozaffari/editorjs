@@ -7,6 +7,7 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
+  <input type="hidden" id="imageUrl">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -16,6 +17,7 @@
             class="close"
             data-dismiss="modal"
             aria-label="Close"
+            @click="clearInput"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -45,38 +47,12 @@
             </div>
              
             </div>
-
-            <!-- <table class="table table-hover">
-              <tbody>
-                <tr v-for="item in dataGallery" :key="item.src">
-                  <td><img :src="item.src" width="150" alt="" /></td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      v-clipboard:copy="item.src"
-                      v-clipboard:success="onCopy"
-                      v-clipboard:error="onError"
-                    >
-                      <svg class="svg-icon" viewBox="0 0 20 20">
-                        <path
-                          d="M17.391,2.406H7.266c-0.232,0-0.422,0.19-0.422,0.422v3.797H3.047c-0.232,0-0.422,0.19-0.422,0.422v10.125c0,0.232,0.19,0.422,0.422,0.422h10.125c0.231,0,0.422-0.189,0.422-0.422v-3.797h3.797c0.232,0,0.422-0.19,0.422-0.422V2.828C17.812,2.596,17.623,2.406,17.391,2.406 M12.749,16.75h-9.28V7.469h3.375v5.484c0,0.231,0.19,0.422,0.422,0.422h5.483V16.75zM16.969,12.531H7.688V3.25h9.281V12.531z"
-                        ></path>
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table> -->
-
-            <!-- <input type="text" v-model="message"> -->
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearInput">
             بستن
           </button>
-          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
         </div>
       </div>
     </div>
@@ -95,6 +71,9 @@ export default {
     };
   },
   methods: {
+    clearInput(){
+document.getElementById("imageUrl").value ="";
+    },
     onCopy: function (e) {
       //console.log("You just copied: " + e.text);
       //let inputPosition = document.querySelectorAll('focusInput');
@@ -102,6 +81,7 @@ export default {
        // let length = inputPosition.length;
         
         // inputPosition[length-1].focus();
+        document.getElementById("imageUrl").value = e.text;
     },
     onError: function (e) {
       console.log("Failed to copy texts");

@@ -77,7 +77,7 @@ export class UploaderImg {
               },
             })
             .then((response) => {
-              console.log("SUCCESS!!", response.data.file.url);
+              //console.log("SUCCESS!!", response.data.file.url);
               return response.data.file.url;
               //funcCreate(response.data.file.url);
             })
@@ -269,12 +269,10 @@ export class UploaderImg {
   // }
 
   save(blockContent) {
-    // if()
-    //  const mark = blockContent.querySelector('wraper');
+
     const image = blockContent.querySelector("img");
     const caption = blockContent.querySelectorAll("input");
-    //const alt = blockContent.querySelector("input");
-    // console.log("this.wrapper",this.wrapper);
+
 
     if (image) {
       return {

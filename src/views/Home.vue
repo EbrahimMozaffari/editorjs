@@ -550,7 +550,7 @@ export default {
     fetchData() {
       let data = this.$store.state.app.gallery;
       if (data.length == 0) {
-        console.log("fetch dataaaaa");
+        //console.log("fetch dataaaaa");
         this.$store.dispatch("app/fetchGalleryData");
       }
     },
@@ -559,12 +559,19 @@ export default {
     // console.log("modalcreated");
     $("#exampleModal").on("hide.bs.modal", function (e) {
       // if (!data) return e.preventDefault() // stops modal from being shown
-      console.log("hide modal");
+      console.log("hide modalll");
+       let inputPosition = document.getElementsByClassName("mytoolblock");
+       var mines = document.querySelectorAll(".mytoolblock > input" );
+       let len = mines.length;
+       
+      // console.log("mines",mines);
+      mines[len-1].value = document.getElementById("imageUrl").value;
+      mines[len-1].focus();
       //    let inputPosition = document.querySelectorAll('focusInput');
       //       console.log("inputPosition",inputPosition)
 
       //document.getElementById("myInputfocus").focus();
-      $("#myInputfocus").focus();
+     // $("#myInputfocus").focus();
     });
   },
   computed: {
