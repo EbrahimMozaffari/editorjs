@@ -76,7 +76,7 @@ import InlineImage from "editorjs-inline-image";
 // import SimpleImage from "simple-image-editorjs";
 
 //import Embed from "@editorjs/embed";
-import { MyTool } from "../classes/firstplugin";
+import { MyTool } from "../classes/imageFromGallery";
 import Modal from "./modal";
 
 export default {

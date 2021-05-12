@@ -30,7 +30,7 @@
                       type="button"
                       data-dismiss="modal"
                       class="btn btn-primary"
-                      v-clipboard:copy="`${item.url}++${item.caption}++${item.alt}`"
+                      v-clipboard:copy="`${item.url}`"
                       v-clipboard:success="onCopy"
                       v-clipboard:error="onError"
                     >

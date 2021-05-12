@@ -30,21 +30,22 @@ import Embed from "@editorjs/embed";
 import Table from "@editorjs/table";
 import Checklist from "@editorjs/checklist";
 import Marker from "@editorjs/marker";
-import Warning from "@editorjs/warning";
+// import Warning from "@editorjs/warning";
 import RawTool from "@editorjs/raw";
-import Quote from "@editorjs/quote";
+// import Quote from "@editorjs/quote";
 import InlineCode from "@editorjs/inline-code";
 import Delimiter from "@editorjs/delimiter";
 // import myDelimiter from "@editorjs/myplugin";
 // import SimpleImage from "@editorjs/simple-image";
 import ImageTool from "@editorjs/image";
 //import Paragraph from "editorjs-paragraph-with-alignment";
-import InlineImage from "editorjs-inline-image";
-import SimpleImage from "simple-image-editorjs";
+// import InlineImage from "editorjs-inline-image";
+// import SimpleImage from "simple-image-editorjs";
 
 //import Embed from "@editorjs/embed";
 
-import { MyTool } from "../classes/firstplugin";
+import { MyTool } from "../classes/imageFromGallery";
+import { UploaderImg } from "../classes/uploaderImage";
 import Modal from "./modal";
 
 export default {
@@ -53,10 +54,11 @@ export default {
     return {
       showModal: false,
       config: {
-        // readOnly: true,
+         readOnly: true,
         // autofocus: true,
         tools: {
-          mine: MyTool,
+          imgGallery: MyTool,
+          uploaderImg: UploaderImg,
           anyTuneName: {
             class: require("editorjs-text-alignment-blocktune/dist/bundle"),
             config: {
@@ -328,15 +330,32 @@ export default {
         data: {
           blocks: [
             {
-              type: "mine",
+              type: "header",
+              data: {
+                text: "چیزی که کاربر میبینه",
+                level: 4,
+              },
+            },
+            {
+              type: "imgGallery",
               data: {
                 url:
                   "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
-                caption: "sadasd",
+                caption: "عنوان عکس 1",
                 alt: "salam in yek alt ast0",
               },
             },
+             {
+               type: "uploaderImg",
+               data: {
+                 url:
+                   "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2021/05/Slider-Image-3-1024x684-8.jpg",
+                 caption: "عنوان عکس 2",
+                 alt: "22223333",
+               },
+             },
             // {
+
             //   type: "header",
             //   data: {
             //     text: "dsadasds",
@@ -536,17 +555,17 @@ export default {
       }
     },
   },
-    mounted() {
+  mounted() {
     // console.log("modalcreated");
-        $('#exampleModal').on('hide.bs.modal', function (e) {
-  // if (!data) return e.preventDefault() // stops modal from being shown
-  console.log("hide modal")
-//    let inputPosition = document.querySelectorAll('focusInput');
-//       console.log("inputPosition",inputPosition)
+    $("#exampleModal").on("hide.bs.modal", function (e) {
+      // if (!data) return e.preventDefault() // stops modal from being shown
+      console.log("hide modal");
+      //    let inputPosition = document.querySelectorAll('focusInput');
+      //       console.log("inputPosition",inputPosition)
 
-//document.getElementById("myInputfocus").focus();
-$("#myInputfocus").focus();
-})
+      //document.getElementById("myInputfocus").focus();
+      $("#myInputfocus").focus();
+    });
   },
   computed: {
     GalleryData() {
@@ -562,8 +581,30 @@ $("#myInputfocus").focus();
 </script>
 
 <style lang="scss">
-.mytoolblock {
+.loading {
+  width: 100%;
+  min-height: 250px;
+  background-color: #f1f2f3;
+}
+.loading img {
+  // position: absolute;
+  max-width: 70px;
+  top: 0;
+  right: 0;
+}
+
+.uploaderwrap {
   margin: 0 0 10px 10px;
+  height: auto;
+}
+.uploaderwrap input {
+  margin: 0 0 10px 0;
+}
+.custom-file {
+  height: initial !important;
+}
+.mytoolblock {
+  margin: 0 0 10px 0px;
   // border-bottom: solid 1px rgb(194, 194, 194);
 }
 .mytoolblock input {
