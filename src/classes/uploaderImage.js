@@ -30,34 +30,105 @@ export class UploaderImg {
         //this._createImage(this.data)
         this._uploadedImage(this.data);
       } else {
+        //     <input-tag  v-model="tags"></input-tag>
+        // <input type="text" v-model="tags"></input>
         const fileImg = document.createElement("input");
+        // const inputTag = document.createElement("input-tag");
+
         fileImg.setAttribute("type", "file");
         fileImg.classList.add("custom-file-input");
-        // fileImg.setAttribute("for", "validatedCustomFile");
         fileImg.setAttribute("id", "customFile");
-
+fileImg.disabled = true;
         const label = document.createElement("label");
         label.classList.add("custom-file-label");
         label.setAttribute("for", "customFile");
-        // label.setAttribute("id", "validatedCustomFile");
         label.innerText = "یک فایل انتخاب نمائید";
+
+        const label1 = document.createElement("label");
+        label1.classList.add(
+          "text-right",
+          "text-danger",
+          "col-12",
+          "col-md-12"
+        );
+        label1.innerText = "* لطفا موارد زیر را کامل پر نمائید"
+
+        const inputTags = document.createElement("input");
+        inputTags.classList.add(
+          "cdx-input",
+          "image-tool__caption",
+          "col-12",
+          "col-md-4"
+        );
+        inputTags.placeholder = "تگ های خود را با , از هم جدا نمائید";
+        inputTags.addEventListener("keyup", () => {
+          if(inputTags.value){ inputTags.classList.remove("has-error");}else{inputTags.classList.add("has-error");}
+           if(title.value && summary.value && inputTags.value){fileImg.disabled = false;}else{fileImg.disabled = true;}
+         });
+        const summary = document.createElement("input");
+        summary.classList.add(
+          "cdx-input",
+          "image-tool__caption",
+          "col-12",
+          "col-md-4"
+        );
+        summary.placeholder="توضیحات عکس را وارد نمائید";
+        summary.addEventListener("keyup", () => {
+          if(summary.value){ summary.classList.remove("has-error");}else{summary.classList.add("has-error");}
+           if(title.value && summary.value && inputTags.value){fileImg.disabled = false;}else{fileImg.disabled = true;}
+         });
+        const title = document.createElement("input");
+        title.classList.add(
+          "cdx-input",
+          "image-tool__caption",
+          "col-12",
+          "col-md-4"
+        );
+        title.placeholder="عنوان عکس";
+        title.addEventListener("keyup", () => {
+          if(title.value){ title.classList.remove("has-error");}else{title.classList.add("has-error");}
+           if(title.value && summary.value && inputTags.value){fileImg.disabled = false;}else{fileImg.disabled = true;}
+         });
+        // inputTag.setAttribute("v-model", "tags");
+        // inputHide.setAttribute("v-model", "tags");
+        // inputHide.setAttribute("type", "text");
+
+        // fileImg.setAttribute("for", "validatedCustomFile");
+
+        // caption.classList.add(
+        //   "cdx-input",
+        //   "image-tool__caption",
+        //   "col-12",
+        //   "col-md-6"
+        // );
 
         // const input = document.createElement("input");
         // input.placeholder = "آدرس عکس خود را در این قسمت وارد نمائید...";
         // input.value = this.data && this.data.url ? this.data.url : "";
         // input.classList.add("cdx-input", "image-tool__caption","focusInput");
         // input.setAttribute("id", "myInputfocus");
+
         this.wrapper.appendChild(label);
         this.wrapper.appendChild(fileImg);
+        this.wrapper.appendChild(label1);
+        this.wrapper.appendChild(title);
+        this.wrapper.appendChild(summary);
+        this.wrapper.appendChild(inputTags);
+        
+        
         // let funcCreate = this._createImage();
         // let funcHandleImage = this._handleImage();
         // this.wrapper.appendChild(input);
-        this._click(fileImg);
+        //this._click(fileImg);
         let wrapper = this.wrapper;
+        console.log("myjson",title.value,summary.value,inputTags.value)
+        
         fileImg.addEventListener("change", myfile, true);
         async function myfile() {
           let fileList = this.files;
-
+          var ax_title= title.value;
+        var ax_summary= summary.value;
+        var ax_keyword= inputTags.value;
           //loading start
           wrapper.innerHTML = "";
           const div = document.createElement("DIV");
@@ -78,10 +149,9 @@ export class UploaderImg {
           // if (file) {
           //   console.log("fileList[0]", URL.createObjectURL(file));
           // }
-     
+
           let base64Img = await imageToBase64(URL.createObjectURL(fileList[0])) // Path to the image
             .then((response) => {
-              //console.log("base64 is : ",response)
               return response;
             })
             .catch((error) => {
@@ -95,22 +165,23 @@ export class UploaderImg {
           //formData.append("Base64Image", base64Img);
           //console.log("formData", formData);
           //Param.append('file', file, file.name);
+          
           let url = await axios
             .post(
               "https://apiadmin.tebyan.net/Image/CreateImage",
               {
                 Base64Image: base64Img,
                 Base64SmallImage: "",
-                Keyword: "test",
+                Keyword:ax_keyword,
                 PicId: "",
-                Summary: "test",
-                Title: "test",
+                Summary: ax_summary,
+                Title: ax_title,
               },
               {
                 headers: {
-                  'Content-Type': 'application/json',
+                  "Content-Type": "application/json",
                   //"Content-Type": "multipart/form-data",
-                  "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI5MDQ5Mzc0Ni1jOTg1LTQ5MDgtOWM4My1jZDcyZTZhZDAwYzIiLCJpYXQiOiI1LzE1LzIxIDEyOjMzOjQzIFBNIiwiSWQiOjQyMCwibmJmIjoxNjIxMDY1ODIzLCJleHAiOjE3MDc0NjU4MjMsImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.32Ajhu6yslM-LsaL1-3humdOud0LMAaw-Quac-rGqps`,
+                  Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI5MDQ5Mzc0Ni1jOTg1LTQ5MDgtOWM4My1jZDcyZTZhZDAwYzIiLCJpYXQiOiI1LzE1LzIxIDEyOjMzOjQzIFBNIiwiSWQiOjQyMCwibmJmIjoxNjIxMDY1ODIzLCJleHAiOjE3MDc0NjU4MjMsImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.32Ajhu6yslM-LsaL1-3humdOud0LMAaw-Quac-rGqps`,
                 },
               }
             )
@@ -167,7 +238,7 @@ export class UploaderImg {
             wrapper.appendChild(alt);
           }
         }
-        
+
         // fileImg.addEventListener("selected", (event) => {
         //   console.log("salam change shod",event);
         //   this._changedFile();

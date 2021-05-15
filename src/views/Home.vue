@@ -13,6 +13,10 @@
       </vue-plyr>
 
     </div> -->
+    
+    <!-- <input-tag placeholder="xczxcczcc" v-model="tags" :limit="2"></input-tag>
+    <input-tag  v-model="tags"></input-tag>
+    <input type="text" v-model="tags"> -->
 <form action="" id="editorForm">
     <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
     <!-- Button trigger modal -->
@@ -78,11 +82,15 @@ import { videoFromGallery } from "../classes/videoFromGallery";
 import Modal from "./modal";
 import VideoModal from "./videoModal";
 
+import InputTag from 'vue-input-tag'
+
 
 export default {
   name: "Home",
   data() {
     return {
+      //tags:"",
+      tags:[],
       showModal: false,
       config: {
         //  readOnly: true,
@@ -651,6 +659,7 @@ if(validFlag){
   components: {
     Modal,
     VideoModal,
+    InputTag
   },
 };
 </script>
