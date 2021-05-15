@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VuePlyr from 'vue-plyr'
+import 'vue-plyr/dist/vue-plyr.css'
 
 import Bootstrap from 'bootstrap'
 import Jquery from 'jquery'
@@ -14,7 +16,9 @@ import axios from "axios"
 import VueClipboard from 'vue-clipboard2'
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
-
+Vue.use(VuePlyr, {
+  plyr: {}
+})
 
 window.axios = axios;
 

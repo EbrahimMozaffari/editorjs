@@ -60,7 +60,12 @@ export class UploaderImg {
           //loading start
           wrapper.innerHTML = "";
           const div = document.createElement("DIV");
-          div.classList.add("loading","d-flex", "align-items-center","justify-content-center");
+          div.classList.add(
+            "loading",
+            "d-flex",
+            "align-items-center",
+            "justify-content-center"
+          );
           const imgloading = document.createElement("img");
           imgloading.src = "/img/loading.gif";
           div.appendChild(imgloading);
@@ -106,13 +111,21 @@ export class UploaderImg {
               "cdx-input",
               "image-tool__caption",
               "col-12",
-              "col-md-6"
+              "col-md-6",
+              "validForm"
             );
-
+            alt.setAttribute("required", "true");
+            alt.addEventListener("keyup", () => {
+              if (alt.value) {
+                alt.classList.remove("has-error");
+              } else {
+                alt.classList.add("has-error");
+              }
+            });
             caption.value = "";
             alt.value = "";
             caption.placeholder = "نوشتن عنوان برای عکس (اختیاری)";
-            alt.placeholder = "نوشتن alt برای عکس (اختیاری)";
+            alt.placeholder = "نوشتن alt برای عکس (اجباری)";
             wrapper.innerHTML = "";
             wrapper.appendChild(image);
             wrapper.appendChild(caption);
@@ -197,23 +210,32 @@ export class UploaderImg {
       image.src = data ? data : "";
       image.setAttribute("width", "100%");
       image.classList.add("image-tool__image");
+      alt.classList.add(
+        "cdx-input",
+        "image-tool__caption",
+        "col-12",
+        "col-md-6",
+        "validForm"
+      );
+      alt.setAttribute("required", "true");
+      alt.addEventListener("keyup", () => {
+        if (alt.value) {
+          alt.classList.remove("has-error");
+        } else {
+          alt.classList.add("has-error");
+        }
+      });
+      alt.placeholder = "نوشتن alt برای عکس (اجباری)";
+      alt.value = "";
       caption.classList.add(
         "cdx-input",
         "image-tool__caption",
         "col-12",
         "col-md-6"
       );
-      alt.classList.add(
-        "cdx-input",
-        "image-tool__caption",
-        "col-12",
-        "col-md-6"
-      );
-
       caption.value = "";
-      alt.value = "";
       caption.placeholder = "نوشتن عنوان برای عکس (اختیاری)";
-      alt.placeholder = "نوشتن alt برای عکس (اختیاری)";
+
       this.wrapper.innerHTML = "";
       this.wrapper.appendChild(image);
       this.wrapper.appendChild(caption);
@@ -235,12 +257,25 @@ export class UploaderImg {
       "col-12",
       "col-md-6"
     );
-    alt.classList.add("cdx-input", "image-tool__caption", "col-12", "col-md-6");
-
+    alt.classList.add(
+      "cdx-input",
+      "image-tool__caption",
+      "col-12",
+      "col-md-6",
+      "validForm"
+    );
+    alt.setAttribute("required", "true");
+    alt.addEventListener("keyup", () => {
+      if (alt.value) {
+        alt.classList.remove("has-error");
+      } else {
+        alt.classList.add("has-error");
+      }
+    });
     caption.value = data.caption ? data.caption : "";
     alt.value = data.alt ? data.alt : "";
     caption.placeholder = "نوشتن عنوان برای عکس (اختیاری)";
-    alt.placeholder = "نوشتن alt برای عکس (اختیاری)";
+    alt.placeholder = "نوشتن alt برای عکس (اجباری)";
     this.wrapper.innerHTML = "";
     this.wrapper.appendChild(image);
     this.wrapper.appendChild(caption);
@@ -251,6 +286,7 @@ export class UploaderImg {
     const caption = document.createElement("p");
     image.src = data.url;
     image.setAttribute("alt", data.alt);
+    image.setAttribute("title", data.alt);
     image.setAttribute("width", "100%");
     image.classList.add("image-tool__image");
     caption.classList.add("figcaption");
@@ -269,10 +305,8 @@ export class UploaderImg {
   // }
 
   save(blockContent) {
-
     const image = blockContent.querySelector("img");
     const caption = blockContent.querySelectorAll("input");
-
 
     if (image) {
       return {

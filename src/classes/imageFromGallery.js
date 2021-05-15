@@ -137,12 +137,23 @@ export class MyTool {
     image.setAttribute("width", "100%");
     image.classList.add("image-tool__image");
     caption.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
-    alt.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
+    alt.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6","validForm");
+    alt.setAttribute("required", "true");
 
     caption.value=  "";
     alt.value= "";
     caption.placeholder =  "نوشتن عنوان برای عکس (اختیاری)";
-    alt.placeholder =  "نوشتن alt برای عکس (اختیاری)";
+    alt.placeholder =  "نوشتن alt برای عکس (اجباری)";
+
+    alt.addEventListener("keyup", () => {
+       if(this.value){
+        this.classList.remove("has-error");
+       }else{
+        this.classList.add("has-error");
+       }
+        
+      });
+    
     this.wrapper.innerHTML = "";
     this.wrapper.appendChild(image);
     this.wrapper.appendChild(caption);
@@ -160,12 +171,22 @@ export class MyTool {
     image.setAttribute("width", "100%");
     image.classList.add("image-tool__image");
     caption.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
-    alt.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
+    alt.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6","validForm");
+    alt.setAttribute("required", "true");
 
     caption.value= data.caption ? data.caption : "";
     alt.value= data.alt ? data.alt : "";
     caption.placeholder =  "نوشتن عنوان برای عکس (اختیاری)";
-    alt.placeholder =  "نوشتن alt برای عکس (اختیاری)";
+    alt.placeholder =  "نوشتن alt برای عکس (اجباری)";
+    alt.addEventListener("keyup", () => {
+      if(alt.value){
+        alt.classList.remove("has-error");
+      }else{
+        alt.classList.add("has-error");
+      }
+       
+     });
+
     this.wrapper.innerHTML = "";
     this.wrapper.appendChild(image);
     this.wrapper.appendChild(caption);
@@ -177,6 +198,7 @@ export class MyTool {
     const caption = document.createElement("p");
     image.src = data.url;
     image.setAttribute("alt", data.alt);
+    image.setAttribute("title", data.alt);
     image.setAttribute("width", "100%");
     image.classList.add("image-tool__image");
     caption.classList.add("figcaption");

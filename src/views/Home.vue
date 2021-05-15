@@ -1,6 +1,20 @@
 <template>
   <div id="home">
-    <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
+    <!-- <div class="myplayer video video-container pb-0 over-flow-hidden col-12 col-md-6 mx-auto">
+      <vue-plyr ref="plyr" class="mw-100">
+        <video
+          id="video"
+          controls
+          playsinline
+          data-poster="https://img.tebyan.net/big/1400/02//4516110811254113205200892161142815182200234.jpg"
+        >
+          <source size="720" src="https://mov.tebyan.net/1400/02/akhbar_349198.mp4" type="video/mp4" />
+        </video>
+      </vue-plyr>
+
+    </div> -->
+<form action="" id="editorForm">
+    <button class="btn btn-primary" @click="invokeSave">Save</button>
     <!-- Button trigger modal -->
     <button
       type="button"
@@ -12,12 +26,25 @@
     >
       Launch demo modal
     </button>
+    <button
+      type="button"
+      id="videoModalBtn"
+      class="btn btn-primary d-none"
+      data-toggle="modal"
+      data-target="#videoModal"
+      @click="fetchVideoData"
+    >
+      Launch video modal
+    </button>
     <Modal :dataGallery="GalleryData" />
+    <VideoModal :videoGalleryData="VideoGalleryData" />
     <div class="demo" dir="rtl">
       <h1 style="text-align: center">ویرایشگر</h1>
       <editor ref="editor" :config="config" :initialized="onInitialized" />
       <!-- <button @click="invokeSave">Save</button> -->
     </div>
+    <!-- <input type="text" name="" id="" required> -->
+</form>
   </div>
 </template>
 <script>
@@ -46,7 +73,11 @@ import ImageTool from "@editorjs/image";
 
 import { MyTool } from "../classes/imageFromGallery";
 import { UploaderImg } from "../classes/uploaderImage";
+import { videoFromGallery } from "../classes/videoFromGallery";
+
 import Modal from "./modal";
+import VideoModal from "./videoModal";
+
 
 export default {
   name: "Home",
@@ -59,6 +90,7 @@ export default {
         tools: {
           imgGallery: MyTool,
           uploaderImg: UploaderImg,
+          videoFromGallery: videoFromGallery,
           anyTuneName: {
             class: require("editorjs-text-alignment-blocktune/dist/bundle"),
             config: {
@@ -181,7 +213,7 @@ export default {
           },
 
           //   myDelimiter: myDelimiter,
-          
+
           // image: {
           //   class: ImageTool,
           //   inlineToolbar: true,
@@ -337,26 +369,25 @@ export default {
             //     level: 4,
             //   },
             // },
+            {
+              type: "imgGallery",
+              data: {
+                url:
+                  "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+                caption: "عنوان عکس 1",
+                alt: "salam in yek alt ast0",
+              },
+            },
+             {
+               type: "uploaderImg",
+               data: {
+                 url:
+                   "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2021/05/Slider-Image-3-1024x684-1.jpg",
+                 caption: "عنوان عکس 2",
+                 alt: "22223333",
+               },
+             },
             // {
-            //   type: "imgGallery",
-            //   data: {
-            //     url:
-            //       "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
-            //     caption: "عنوان عکس 1",
-            //     alt: "salam in yek alt ast0",
-            //   },
-            // },
-            //  {
-            //    type: "uploaderImg",
-            //    data: {
-            //      url:
-            //        "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2021/05/Slider-Image-3-1024x684-8.jpg",
-            //      caption: "عنوان عکس 2",
-            //      alt: "22223333",
-            //    },
-            //  },
-            // {
-
             //   type: "header",
             //   data: {
             //     text: "dsadasds",
@@ -375,7 +406,6 @@ export default {
             //     withBackground: false,
             //   },
             // },
-
             // {
             //   type: "image",
             //   data: {
@@ -384,7 +414,6 @@ export default {
             //     caption: "sadasd",
             //   },
             // },
-
             // {
             //   type: "image",
             //   data: {
@@ -516,8 +545,10 @@ export default {
     onInitialized(editor) {
       console.log(editor);
     },
-    invokeSave() {
-      console.log();
+    invokeSave(event) {
+      event.preventDefault();
+      let validFlag = true;
+      //console.log();
       // this.$refs.editor
       //   .save()
       //   .then((outputData) => {
@@ -526,7 +557,30 @@ export default {
       //   .catch((error) => {
       //     console.log("Saving failed: ", error);
       //   });
-      this.$refs.editor._data.state.editor
+         let nameField = document.getElementsByClassName("validForm");
+      //  let nameField = document.querySelectorAll("validForm");
+       if(nameField){
+         nameField.forEach(element => {
+          console.log("darim",element.value); 
+          if(!element.value){
+            element.classList.add("has-error");
+            validFlag = false;
+          }
+         });
+         
+       }
+
+      // nameField.addEventListener("input", () => {
+      // nameField.setCustomValidity("");
+      // nameField.checkValidity();
+      // console.log(nameField.checkValidity());
+      // });
+
+      // nameField.addEventListener("invalid", () => {
+      // nameField.setCustomValidity("Please fill in your First Name.");
+      // });
+if(validFlag){
+  this.$refs.editor._data.state.editor
         .save()
         .then((data) => {
           // Do what you want with the data here
@@ -547,6 +601,8 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+}
+      
     },
     fetchData() {
       let data = this.$store.state.app.gallery;
@@ -555,40 +611,57 @@ export default {
         this.$store.dispatch("app/fetchGalleryData");
       }
     },
+    fetchVideoData() {
+      let data = this.$store.state.app.videoGallery;
+      if (data.length == 0) {
+        this.$store.dispatch("app/fetchVideoGalleryData");
+      }
+    },
   },
   mounted() {
-    // console.log("modalcreated");
+    
     $("#exampleModal").on("hide.bs.modal", function (e) {
-      // if (!data) return e.preventDefault() // stops modal from being shown
-      console.log("hide modalll");
-       let inputPosition = document.getElementsByClassName("mytoolblock");
-       var mines = document.querySelectorAll(".mytoolblock > input" );
-       let len = mines.length;
-       
-      // console.log("mines",mines);
-      mines[len-1].value = document.getElementById("imageUrl").value;
-      mines[len-1].focus();
-      //    let inputPosition = document.querySelectorAll('focusInput');
-      //       console.log("inputPosition",inputPosition)
+      console.log("hide image modalll");
+      var mines = document.querySelectorAll(".mytoolblock > input");
+      let len = mines.length;
 
-      //document.getElementById("myInputfocus").focus();
-     // $("#myInputfocus").focus();
+      mines[len - 1].value = document.getElementById("imageUrl").value;
+      mines[len - 1].focus();
+
+    });
+    $("#videoModal").on("hide.bs.modal", function (e) {
+      console.log("hide image modalll");
+      var mines = document.querySelectorAll(".videotoolblock > input");
+      let len = mines.length;
+      mines[len - 1].value = document.getElementById("videoUrl").value;
+      mines[len - 1].focus();
+
     });
   },
   computed: {
     GalleryData() {
-      //console.log("ddddddd",this.$store.getters["app/getGallery"]);
+      
       return this.$store.getters["app/getGallery"];
+    },
+    VideoGalleryData() {
+      return this.$store.getters["app/getVideoGallery"];
     },
   },
 
   components: {
     Modal,
+    VideoModal,
   },
 };
 </script>
 
 <style lang="scss">
+.has-error{
+  border: solid 1px red;
+  color: red;
+}
+
+
 .loading {
   width: 100%;
   min-height: 250px;
