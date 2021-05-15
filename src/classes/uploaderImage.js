@@ -1,3 +1,4 @@
+import imageToBase64 from "image-to-base64/browser";
 export class UploaderImg {
   static get toolbox() {
     return {
@@ -71,25 +72,59 @@ export class UploaderImg {
           div.appendChild(imgloading);
           wrapper.appendChild(div);
 
-          console.log("fileList", fileList);
+          //let base64Img = await _uploadBase64(fileList[0])
 
-          let formData = new FormData();
-          formData.append("image", fileList[0]);
-          let url = await axios
-            .post("http://ebrahimmozaffari.ir/demo/about-us/", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
+          // const [file] = fileList[0];
+          // if (file) {
+          //   console.log("fileList[0]", URL.createObjectURL(file));
+          // }
+     
+          let base64Img = await imageToBase64(URL.createObjectURL(fileList[0])) // Path to the image
             .then((response) => {
-              //console.log("SUCCESS!!", response.data.file.url);
-              return response.data.file.url;
+              //console.log("base64 is : ",response)
+              return response;
+            })
+            .catch((error) => {
+              return error;
+            });
+
+          // console.log("base64Img",  base64Img);
+
+          //http://ebrahimmozaffari.ir/demo/about-us/
+          //let formData = new FormData();
+          //formData.append("Base64Image", base64Img);
+          //console.log("formData", formData);
+          //Param.append('file', file, file.name);
+          let url = await axios
+            .post(
+              "https://apiadmin.tebyan.net/Image/CreateImage",
+              {
+                Base64Image: base64Img,
+                Base64SmallImage: "",
+                Keyword: "test",
+                PicId: "",
+                Summary: "test",
+                Title: "test",
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  //"Content-Type": "multipart/form-data",
+                  "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI5MDQ5Mzc0Ni1jOTg1LTQ5MDgtOWM4My1jZDcyZTZhZDAwYzIiLCJpYXQiOiI1LzE1LzIxIDEyOjMzOjQzIFBNIiwiSWQiOjQyMCwibmJmIjoxNjIxMDY1ODIzLCJleHAiOjE3MDc0NjU4MjMsImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.32Ajhu6yslM-LsaL1-3humdOud0LMAaw-Quac-rGqps`,
+                },
+              }
+            )
+            .then((response) => {
+              console.log("SUCCESS!!", response.data);
+              // return response.data.file.url;
+              return response;
               //funcCreate(response.data.file.url);
             })
-            .catch(function() {
-              console.log("FAILURE!!");
+            .catch(function(error) {
+              console.log("FAILURE!!", error);
             });
-          console.log("url" + url);
+
+          //console.log("url====>" + url);
 
           if (url) {
             //let res = data.split("++");
@@ -132,6 +167,7 @@ export class UploaderImg {
             wrapper.appendChild(alt);
           }
         }
+        
         // fileImg.addEventListener("selected", (event) => {
         //   console.log("salam change shod",event);
         //   this._changedFile();
@@ -158,7 +194,7 @@ export class UploaderImg {
     let imgUrl = await _handleImage(formData);
     await _createImage(imgUrl);
 
-    await console.log("imgUrl", imgUrl);
+    //await console.log("imgUrl", imgUrl);
     // await axios
     //   .post("http://ebrahimmozaffari.ir/demo/about-us/", formData, {
     //     headers: {
@@ -298,6 +334,19 @@ export class UploaderImg {
     this.wrapper.appendChild(caption);
   }
 
+  _imgToBase64(img) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // I think this won't work inside the function from the console
+    img.crossOrigin = "anonymous";
+
+    ctx.drawImage(img, 0, 0);
+
+    return canvas.toDataURL();
+  }
   // function setAttributes(el, attrs) {
   //   for (var key in attrs) {
   //     el.setAttribute(key, attrs[key]);

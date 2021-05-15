@@ -14,7 +14,7 @@
 
     </div> -->
 <form action="" id="editorForm">
-    <button class="btn btn-primary" @click="invokeSave">Save</button>
+    <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
     <!-- Button trigger modal -->
     <button
       type="button"
@@ -369,24 +369,24 @@ export default {
             //     level: 4,
             //   },
             // },
-            {
-              type: "imgGallery",
-              data: {
-                url:
-                  "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
-                caption: "عنوان عکس 1",
-                alt: "salam in yek alt ast0",
-              },
-            },
-             {
-               type: "uploaderImg",
-               data: {
-                 url:
-                   "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2021/05/Slider-Image-3-1024x684-1.jpg",
-                 caption: "عنوان عکس 2",
-                 alt: "22223333",
-               },
-             },
+            // {
+            //   type: "imgGallery",
+            //   data: {
+            //     url:
+            //       "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+            //     caption: "عنوان عکس 1",
+            //     alt: "salam in yek alt ast0",
+            //   },
+            // },
+            //  {
+            //    type: "uploaderImg",
+            //    data: {
+            //      url:
+            //        "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2021/05/Slider-Image-3-1024x684-1.jpg",
+            //      caption: "عنوان عکس 2",
+            //      alt: "22223333",
+            //    },
+            //  },
             // {
             //   type: "header",
             //   data: {
