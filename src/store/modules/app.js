@@ -83,7 +83,7 @@ export const actions = {
           console.log("FAILURE!!", error);
         });
       // let data = await axios.get('http://localhost:3000/gallery');
-       console.log(data.data.data);
+       //console.log(data.data.data);
        commit("SET_TOTALIMAGECOUNT", data.data.total);
       if (data.data.data) {
         commit("SET_GALLERY_DATA", data.data.data);

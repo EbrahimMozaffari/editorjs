@@ -146,10 +146,10 @@ export class MyTool {
     alt.placeholder =  "نوشتن alt برای عکس (اجباری)";
 
     alt.addEventListener("keyup", () => {
-       if(this.value){
-        this.classList.remove("has-error");
+       if(alt.value){
+        alt.classList.remove("has-error");
        }else{
-        this.classList.add("has-error");
+        alt.classList.add("has-error");
        }
         
       });

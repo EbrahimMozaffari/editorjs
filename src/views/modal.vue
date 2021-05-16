@@ -187,7 +187,6 @@ export default {
   },
   mounted() {
     $("#exampleModal").on("hide.bs.modal", function (e) {
-      console.log("hide image modalll");
       var mines = document.querySelectorAll(".mytoolblock > input");
       let len = mines.length;
 
