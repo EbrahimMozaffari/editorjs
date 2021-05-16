@@ -46,6 +46,7 @@
                   v-clipboard:copy="`${item.Url}`"
                   v-clipboard:success="onCopy"
                   v-clipboard:error="onError"
+                  title="افزودن"
                 >
                   <svg class="svg-icon" viewBox="0 0 20 20">
                     <path
@@ -61,6 +62,7 @@
                   :disabled="nextCount == 0"
                   class="btn btn-primary paginationtn btn-outline-light"
                   @click="next"
+                  title="صفحه بعد"
                 >
                   <svg class="svg-icon" viewBox="0 0 20 20">
                     <path
@@ -73,6 +75,7 @@
                   class="btn btn-primary paginationtn btn-outline-light"
                   @click="prev"
                   :disabled="prevDisabled"
+                  title="صفحه قبل"
                 >
                   <svg class="svg-icon" viewBox="0 0 20 20">
                     <path
@@ -298,5 +301,17 @@ outline-color: #d8d8d8;
 }
 #exampleModal .col-6:hover{
     border: solid 1px gray;
+}
+#exampleModal .modal-footer {
+    overflow: hidden;
+    padding: 20px 25px;
+    padding-top: 25px;
+    background: #F5F5F5;
+    background: #F5F5F5 url(/img/foobg.png) top left repeat-x;
+    border-top:none;
+}
+#exampleModal .modal-header{
+    background: #ececec;
+    border-bottom: solid 4px gray;
 }
 </style>

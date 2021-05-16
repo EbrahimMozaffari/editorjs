@@ -365,6 +365,37 @@ export default {
         },
         onChange: (args) => {
           console.log("Now I know that Editor's content changed!");
+          // event.preventDefault();
+         /* setTimeout(() => {
+            let validFlag = true;
+
+            let nameField = document.getElementsByClassName("validForm");
+
+            if (nameField) {
+              nameField.forEach((element) => {
+                console.log("darim", element.value);
+                if (!element.value) {
+                  element.classList.add("has-error");
+                  validFlag = false;
+                }
+              });
+            }
+
+            if (validFlag) {
+              this.$refs.editor._data.state.editor
+                .save()
+                .then((data) => {
+                  var newArray = data.blocks.filter((el) => {
+                    return el.data !== undefined && el.type !=="paragraph";
+                  });
+                  console.log("newArray", newArray);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
+          }, 60000); */
+
           //this.changed();
         },
         data: {
