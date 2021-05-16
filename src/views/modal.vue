@@ -11,7 +11,7 @@
     <input type="hidden" id="isImageUrl" />
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header d-flex justify-space">
           <h5 class="modal-title" id="exampleModalLabel">گالری تصاویر</h5>
           <button
             type="button"
@@ -23,28 +23,26 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <input
+          type="text"
+          class="searchInput"
+          placeholder="جستجو ..."
+          v-model="mySearchText"
+        />
         <div class="modal-body">
           <div class="container">
             <div class="row">
-              <div class="col-12">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="جستجو ..."
-                  v-model="mySearchText"
-                />
-              </div>
               <div
-                class="col-6 col-md-4 d-flex my-1"
+                class="col-6 col-md-4 d-flex my-1 px-0 border"
                 v-for="item in dataGallery"
                 :key="item.id"
               >
-                <img class="imageGallery" :src="item.Url" width="80%" alt="" />
+                <img class="imageGallery" :src="item.Url" width="65%" alt="" />
 
                 <button
                   type="button"
                   data-dismiss="modal"
-                  class="btn btn-primary"
+                  class="btn btn-primary copyBtn"
                   v-clipboard:copy="`${item.Url}`"
                   v-clipboard:success="onCopy"
                   v-clipboard:error="onError"
@@ -58,33 +56,39 @@
               </div>
             </div>
             <div class="row d-flex justify-content-between">
-              <button
-                :disabled="nextCount == 0"
-                class="btn btn-primary"
-                @click="next"
-              >
-                <svg class="svg-icon" viewBox="0 0 20 20">
-                  <path
-                    fill="none"
-                    d="M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z"
-                  ></path>
-                </svg>
-              </button>
-              <button class="btn btn-primary" @click="prev" :disabled="prevDisabled">
-                <svg class="svg-icon" viewBox="0 0 20 20">
-                  <path
-                    fill="none"
-                    d="M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z"
-                  ></path>
-                </svg>
-              </button>
+              <div class="col-12 px-0">
+                <button
+                  :disabled="nextCount == 0"
+                  class="btn btn-primary paginationtn btn-outline-light"
+                  @click="next"
+                >
+                  <svg class="svg-icon" viewBox="0 0 20 20">
+                    <path
+                      fill="none"
+                      d="M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  class="btn btn-primary paginationtn btn-outline-light"
+                  @click="prev"
+                  :disabled="prevDisabled"
+                >
+                  <svg class="svg-icon" viewBox="0 0 20 20">
+                    <path
+                      fill="none"
+                      d="M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer d-flex justify-content-start">
           <button
             type="button"
-            class="btn btn-secondary"
+            class="btn btn-primary"
             data-dismiss="modal"
             @click="clearInput"
           >
@@ -109,16 +113,7 @@ export default {
       search: null,
       nextCount: 0,
       prevCount: 12,
-      prevDisabled:false,
-      items: [
-        "Voluptatum distinctio voluptas pariatur repellat rerum blanditiis",
-        "Architecto voluptatibus est velit",
-        "Illo velit dolor sit alias maxime voluptatem",
-        "Rerum voluptatibus quam modi quia",
-        "Ad sint quas nostrum",
-      ],
-      message:
-        "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+      prevDisabled: false,
       dialog: false,
     };
   },
@@ -146,11 +141,11 @@ export default {
       event.preventDefault();
       let totalImageCount = this.$store.state.app.totalImageCount;
       console.log("totalImageCount", totalImageCount);
-       if( this.nextCount > 0){
-          this.prevCount = this.prevCount - 12;
-          this.nextCount = this.nextCount - 12;
-      }else{
-         // this.prevDisabled = true;
+      if (this.nextCount > 0) {
+        this.prevCount = this.prevCount - 12;
+        this.nextCount = this.nextCount - 12;
+      } else {
+        // this.prevDisabled = true;
       }
       let skip = this.nextCount;
 
@@ -165,8 +160,6 @@ export default {
         keyword: this.mySearchText,
         sliding: jsondata,
       });
-     
-      
     },
     prev: function (event) {
       event.preventDefault();
@@ -184,13 +177,12 @@ export default {
         keyword: this.mySearchText,
         sliding: jsondata,
       });
-      if(totalImageCount> this.prevCount){
-          this.prevCount = this.prevCount + 12;
-          this.nextCount = this.nextCount + 12;
-      }else{
-          this.prevDisabled = true;
+      if (totalImageCount > this.prevCount) {
+        this.prevCount = this.prevCount + 12;
+        this.nextCount = this.nextCount + 12;
+      } else {
+        this.prevDisabled = true;
       }
-      
     },
   },
   mounted() {
@@ -202,6 +194,10 @@ export default {
       mines[len - 1].value = document.getElementById("imageUrl").value;
       //mines[len - 1].value = this.imageUrl;
       mines[len - 1].focus();
+
+      setTimeout(() => {
+          document.getElementById("imageUrl").value = "";
+      }, 1500);
     });
   },
   watch: {
@@ -241,18 +237,67 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .btn-primary {
   color: black !important;
   background-color: lightblue !important;
-  border: initial !important;
+  border: none !important;
   border-radius: 0 !important;
+  outline: none !important;
+}
+#exampleModal .paginationtn {
+  border-radius: 0 !important;
+  outline: none !important;
+}
+#exampleModal .paginationtn:focus {
+  -moz-outline-style: none !important;
+  outline: none !important;
+  outline: 0 !important;
+  border: 0 !important;
 }
 .btn-primary:hover {
   background-color: lightcyan !important;
 }
 
-.d-flex {
-  max-height: 60px;
+#exampleModal .container .d-flex {
+  max-height: 55px;
+  height: 55px;;
+}
+#exampleModal .searchInput {
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #d8d8d8;
+}
+#exampleModal .searchInput:focus{
+outline-style: solid ;
+outline-color: #d8d8d8;
+/* border-bottom: 1px solid #d8d8d8; */
+}
+#exampleModal .searchInput,
+#exampleModal .modal-title,
+#exampleModal .modal-footer .btn {
+  font-family: IRANSansWeb-FaNum-Light;
+}
+#exampleModal .searchInput:focus {
+  border: none;
+}
+#exampleModal .copyBtn {
+  width: 35%;
+}
+/* #exampleModal .col-md-4 {
+  padding-left: 5px;
+  padding-right: 5px;
+} */
+/* #exampleModal .col-12 {
+  padding-left: 0px;
+  padding-right: 0px;
+} */
+#exampleModal .modal-header .close {
+  margin: -1rem -1rem -1rem;
+  color: red;
+  font-size: 2rem;
+}
+#exampleModal .col-6:hover{
+    border: solid 1px gray;
 }
 </style>

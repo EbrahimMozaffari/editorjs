@@ -187,8 +187,9 @@ fileImg.disabled = true;
             )
             .then((response) => {
               console.log("SUCCESS!!", response.data);
+              //console.log("picture!!", response.data.data.SummaryPic);
               // return response.data.file.url;
-              return response;
+              return response.data;
               //funcCreate(response.data.file.url);
             })
             .catch(function(error) {
@@ -199,12 +200,17 @@ fileImg.disabled = true;
 
           if (url) {
             //let res = data.split("++");
+            console.log("url---->",url.data);
+            // var  aaa = JSON.stringify(url.data);
+            // console.log("aaa---->",aaa.UrlPicID);
+            // var jsss = JSON.parse(url.data.data);
+            // console.log("jsss---->",jsss.UrlPicID);
             const image = document.createElement("img");
             const caption = document.createElement("input");
             const alt = document.createElement("input");
 
             image.alt = "";
-            image.src = url ? url : "";
+            image.src = url.data.UrlPicID ? url.data.UrlPicID : "";
             image.setAttribute("width", "100%");
             image.classList.add("image-tool__image");
             caption.classList.add(
@@ -230,7 +236,7 @@ fileImg.disabled = true;
             });
             caption.value = "";
             alt.value = "";
-            caption.placeholder = "نوشتن عنوان برای عکس (اختیاری)";
+            caption.placeholder = "نوشتن توضیحات برای عکس (اختیاری)";
             alt.placeholder = "نوشتن alt برای عکس (اجباری)";
             wrapper.innerHTML = "";
             wrapper.appendChild(image);
@@ -341,7 +347,7 @@ fileImg.disabled = true;
         "col-md-6"
       );
       caption.value = "";
-      caption.placeholder = "نوشتن عنوان برای عکس (اختیاری)";
+      caption.placeholder = "نوشتن توضیحات برای عکس (اختیاری)";
 
       this.wrapper.innerHTML = "";
       this.wrapper.appendChild(image);
@@ -381,7 +387,7 @@ fileImg.disabled = true;
     });
     caption.value = data.caption ? data.caption : "";
     alt.value = data.alt ? data.alt : "";
-    caption.placeholder = "نوشتن عنوان برای عکس (اختیاری)";
+    caption.placeholder = "نوشتن توضیحات برای عکس (اختیاری)";
     alt.placeholder = "نوشتن alt برای عکس (اجباری)";
     this.wrapper.innerHTML = "";
     this.wrapper.appendChild(image);

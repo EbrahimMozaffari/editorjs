@@ -142,7 +142,7 @@ export class MyTool {
 
     caption.value=  "";
     alt.value= "";
-    caption.placeholder =  "نوشتن عنوان برای عکس (اختیاری)";
+    caption.placeholder =  "نوشتن توضیحات برای عکس (اختیاری)";
     alt.placeholder =  "نوشتن alt برای عکس (اجباری)";
 
     alt.addEventListener("keyup", () => {
@@ -176,7 +176,7 @@ export class MyTool {
 
     caption.value= data.caption ? data.caption : "";
     alt.value= data.alt ? data.alt : "";
-    caption.placeholder =  "نوشتن عنوان برای عکس (اختیاری)";
+    caption.placeholder =  "نوشتن توضیحات برای عکس (اختیاری)";
     alt.placeholder =  "نوشتن alt برای عکس (اجباری)";
     alt.addEventListener("keyup", () => {
       if(alt.value){
