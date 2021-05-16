@@ -13,42 +13,42 @@
       </vue-plyr>
 
     </div> -->
-    
+
     <!-- <input-tag placeholder="xczxcczcc" v-model="tags" :limit="2"></input-tag>
     <input-tag  v-model="tags"></input-tag>
     <input type="text" v-model="tags"> -->
-<form action="" id="editorForm">
-    <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
-    <!-- Button trigger modal -->
-    <button
-      type="button"
-      id="mybtn1"
-      class="btn btn-primary d-none"
-      data-toggle="modal"
-      data-target="#exampleModal"
-      @click="fetchData"
-    >
-      Launch demo modal
-    </button>
-    <button
-      type="button"
-      id="videoModalBtn"
-      class="btn btn-primary d-none"
-      data-toggle="modal"
-      data-target="#videoModal"
-      @click="fetchVideoData"
-    >
-      Launch video modal
-    </button>
-    <Modal :dataGallery="GalleryData" />
-    <VideoModal :videoGalleryData="VideoGalleryData" />
-    <div class="demo" dir="rtl">
-      <h1 style="text-align: center">ویرایشگر</h1>
-      <editor ref="editor" :config="config" :initialized="onInitialized" />
-      <!-- <button @click="invokeSave">Save</button> -->
-    </div>
-    <!-- <input type="text" name="" id="" required> -->
-</form>
+    <form action="" id="editorForm">
+      <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        id="mybtn1"
+        class="btn btn-primary d-none"
+        data-toggle="modal"
+        data-target="#exampleModal"
+        @click="fetchData"
+      >
+        Launch demo modal
+      </button>
+      <button
+        type="button"
+        id="videoModalBtn"
+        class="btn btn-primary d-none"
+        data-toggle="modal"
+        data-target="#videoModal"
+        @click="fetchVideoData"
+      >
+        Launch video modal
+      </button>
+      <Modal :dataGallery="GalleryData" />
+      <VideoModal :videoGalleryData="VideoGalleryData" />
+      <div class="demo" dir="rtl">
+        <h1 style="text-align: center">ویرایشگر</h1>
+        <editor ref="editor" :config="config" :initialized="onInitialized" />
+        <!-- <button @click="invokeSave">Save</button> -->
+      </div>
+      <!-- <input type="text" name="" id="" required> -->
+    </form>
   </div>
 </template>
 <script>
@@ -82,15 +82,14 @@ import { videoFromGallery } from "../classes/videoFromGallery";
 import Modal from "./modal";
 import VideoModal from "./videoModal";
 
-import InputTag from 'vue-input-tag'
-
+import InputTag from "vue-input-tag";
 
 export default {
   name: "Home",
   data() {
     return {
       //tags:"",
-      tags:[],
+      tags: [],
       showModal: false,
       config: {
         //  readOnly: true,
@@ -362,7 +361,7 @@ export default {
         },
 
         onReady: () => {
-          console.log("on ready");
+          // console.log("on ready");
         },
         onChange: (args) => {
           console.log("Now I know that Editor's content changed!");
@@ -551,7 +550,7 @@ export default {
   },
   methods: {
     onInitialized(editor) {
-      console.log(editor);
+      //console.log(editor);
     },
     invokeSave(event) {
       event.preventDefault();
@@ -565,18 +564,17 @@ export default {
       //   .catch((error) => {
       //     console.log("Saving failed: ", error);
       //   });
-         let nameField = document.getElementsByClassName("validForm");
+      let nameField = document.getElementsByClassName("validForm");
       //  let nameField = document.querySelectorAll("validForm");
-       if(nameField){
-         nameField.forEach(element => {
-          console.log("darim",element.value); 
-          if(!element.value){
+      if (nameField) {
+        nameField.forEach((element) => {
+          console.log("darim", element.value);
+          if (!element.value) {
             element.classList.add("has-error");
             validFlag = false;
           }
-         });
-         
-       }
+        });
+      }
 
       // nameField.addEventListener("input", () => {
       // nameField.setCustomValidity("");
@@ -587,30 +585,29 @@ export default {
       // nameField.addEventListener("invalid", () => {
       // nameField.setCustomValidity("Please fill in your First Name.");
       // });
-if(validFlag){
-  this.$refs.editor._data.state.editor
-        .save()
-        .then((data) => {
-          // Do what you want with the data here
-          // console.log(data.blocks);
-          var newArray = data.blocks.filter((el) => {
-            return el.data !== undefined;
+      if (validFlag) {
+        this.$refs.editor._data.state.editor
+          .save()
+          .then((data) => {
+            // Do what you want with the data here
+            // console.log(data.blocks);
+            var newArray = data.blocks.filter((el) => {
+              return el.data !== undefined;
+            });
+            console.log("newArray", newArray);
+            // data.blocks.forEach((element) => {
+            //   if (element.data === undefined) {
+            //     // delete.data.blocks[key];
+            //     // console.log("key", key);
+            //   }
+            //   //console.log("element",element);
+            // });
+            // Object.keys(obj).forEach(key => obj[key] === undefined ? delete obj[key] : {});
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          console.log("newArray", newArray);
-          // data.blocks.forEach((element) => {
-          //   if (element.data === undefined) {
-          //     // delete.data.blocks[key];
-          //     // console.log("key", key);
-          //   }
-          //   //console.log("element",element);
-          // });
-          // Object.keys(obj).forEach(key => obj[key] === undefined ? delete obj[key] : {});
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-}
-      
+      }
     },
     fetchData() {
       let data = this.$store.state.app.gallery;
@@ -627,28 +624,16 @@ if(validFlag){
     },
   },
   mounted() {
-    
-    $("#exampleModal").on("hide.bs.modal", function (e) {
-      console.log("hide image modalll");
-      var mines = document.querySelectorAll(".mytoolblock > input");
-      let len = mines.length;
-
-      mines[len - 1].value = document.getElementById("imageUrl").value;
-      mines[len - 1].focus();
-
-    });
     $("#videoModal").on("hide.bs.modal", function (e) {
       console.log("hide image modalll");
       var mines = document.querySelectorAll(".videotoolblock > input");
       let len = mines.length;
       mines[len - 1].value = document.getElementById("videoUrl").value;
       mines[len - 1].focus();
-
     });
   },
   computed: {
     GalleryData() {
-      
       return this.$store.getters["app/getGallery"];
     },
     VideoGalleryData() {
@@ -659,17 +644,16 @@ if(validFlag){
   components: {
     Modal,
     VideoModal,
-    InputTag
+    InputTag,
   },
 };
 </script>
 
 <style lang="scss">
-.has-error{
+.has-error {
   border: solid 1px red;
   color: red;
 }
-
 
 .loading {
   width: 100%;
