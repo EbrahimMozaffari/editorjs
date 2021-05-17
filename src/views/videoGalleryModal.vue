@@ -1,24 +1,24 @@
 <template>
   <div
     class="modal fade"
-    id="exampleModal"
+    id="videoModal"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="exampleModalLabel"
+    aria-labelledby="videoModal"
     aria-hidden="true"
   >
-    <input type="hidden" id="imageUrl" />
-    <input type="hidden" id="isImageUrl" />
+    <input type="hidden" id="videoUrl" />
+    <input type="hidden" id="isvideoUrl" />
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header d-flex justify-space">
-          <h5 class="modal-title" id="exampleModalLabel">گالری تصاویر</h5>
+          <h5 class="modal-title" id="videoModalLabel">گالری ویدئو</h5>
           <button
             type="button"
             class="close"
             data-dismiss="modal"
             aria-label="Close"
-            @click="clearInput"
+            @click="clearInputVideo"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -34,16 +34,21 @@
             <div class="row">
               <div
                 class="col-6 col-md-4 d-flex my-1 px-0 border"
-                v-for="item in dataGallery"
+                v-for="item in videoGalleryData"
                 :key="item.id"
               >
-                <img class="imageGallery" :src="item.Url" width="65%" alt="" />
+                <img
+                  class="imageGallery"
+                  :src="item.poster"
+                  width="65%"
+                  alt=""
+                />
 
                 <button
                   type="button"
                   data-dismiss="modal"
                   class="btn btn-primary copyBtn"
-                  v-clipboard:copy="`${item.Url}`"
+                  v-clipboard:copy="`${item.url}++${item.poster}`"
                   v-clipboard:success="onCopy"
                   v-clipboard:error="onError"
                   title="افزودن"
@@ -93,7 +98,7 @@
             type="button"
             class="btn btn-primary"
             data-dismiss="modal"
-            @click="clearInput"
+            @click="clearInputVideo"
           >
             بستن
           </button>
@@ -106,10 +111,10 @@
 <script>
 export default {
   name: "Modal",
-  props: ["dataGallery"],
+  props: ["videoGalleryData"],
   data() {
     return {
-      imageUrl: "",
+      videoUrl: "",
       searchText: [],
       mySearchText: "",
       searchQuery: "",
@@ -124,8 +129,8 @@ export default {
     myfunction() {
       console.log("myfunct", this.value);
     },
-    clearInput() {
-      document.getElementById("imageUrl").value = "";
+    clearInputVideo() {
+      document.getElementById("videoUrl").value = "";
     },
     onCopy: function (e) {
       //console.log("You just copied: " + e.text);
@@ -135,7 +140,7 @@ export default {
 
       // inputPosition[length-1].focus();
       //this.imageUrl =  e.text;
-      document.getElementById("imageUrl").value = e.text;
+      document.getElementById("videoUrl").value = e.text;
     },
     onError: function (e) {
       console.log("Failed to copy texts");
@@ -189,16 +194,16 @@ export default {
     },
   },
   mounted() {
-    $("#exampleModal").on("hide.bs.modal", function (e) {
-      var mines = document.querySelectorAll(".mytoolblock > input");
+    $("#videoModal").on("hide.bs.modal", function (e) {
+      var mines = document.querySelectorAll(".videotoolblock > input");
       let len = mines.length;
 
-      mines[len - 1].value = document.getElementById("imageUrl").value;
+      mines[len - 1].value = document.getElementById("videoUrl").value;
       //mines[len - 1].value = this.imageUrl;
       mines[len - 1].focus();
 
       setTimeout(() => {
-          document.getElementById("imageUrl").value = "";
+        document.getElementById("imageUrl").value = "";
       }, 1500);
     });
   },
@@ -247,7 +252,7 @@ export default {
   border-radius: 0 !important;
   outline: none !important;
 }
-#exampleModal .paginationtn {
+#videoModal .paginationtn {
   border-radius: 0 !important;
   outline: none !important;
 }
@@ -255,49 +260,49 @@ export default {
   background-color: lightcyan !important;
 }
 
-#exampleModal .container .d-flex {
+#videoModal .container .d-flex {
   max-height: 55px;
-  height: 55px;;
+  height: 55px;
 }
-#exampleModal .searchInput {
+#videoModal .searchInput {
   width: 100%;
   padding: 10px;
   border-bottom: 1px solid #d8d8d8;
 }
-#exampleModal .searchInput:focus{
-outline-style: solid ;
-outline-color: #d8d8d8;
-/* border-bottom: 1px solid #d8d8d8; */
+#videoModal .searchInput:focus {
+  outline-style: solid;
+  outline-color: #d8d8d8;
+  /* border-bottom: 1px solid #d8d8d8; */
 }
-#exampleModal .searchInput,
-#exampleModal .modal-title,
-#exampleModal .modal-footer .btn {
+#videoModal .searchInput,
+#videoModal .modal-title,
+#videoModal .modal-footer .btn {
   font-family: IRANSansWeb-FaNum-Light;
 }
-#exampleModal .searchInput:focus {
+#videoModal .searchInput:focus {
   border: none;
 }
-#exampleModal .copyBtn {
+#videoModal .copyBtn {
   width: 35%;
 }
-#exampleModal .modal-header .close {
+#videoModal .modal-header .close {
   margin: -1rem -1rem -1rem;
   color: red;
   font-size: 2rem;
 }
-#exampleModal .col-6:hover{
-    border: solid 1px gray;
+#videoModal .col-6:hover {
+  border: solid 1px gray;
 }
-#exampleModal .modal-footer {
-    overflow: hidden;
-    padding: 20px 25px;
-    padding-top: 25px;
-    background: #F5F5F5;
-    background: #F5F5F5 url(/img/foobg.png) top left repeat-x;
-    border-top:none;
+#videoModal .modal-footer {
+  overflow: hidden;
+  padding: 20px 25px;
+  padding-top: 25px;
+  background: #f5f5f5;
+  background: #f5f5f5 url(/img/foobg.png) top left repeat-x;
+  border-top: none;
 }
-#exampleModal .modal-header{
-    background: #ececec;
-    border-bottom: solid 4px gray;
+#videoModal .modal-header {
+  background: #ececec;
+  border-bottom: solid 4px gray;
 }
 </style>

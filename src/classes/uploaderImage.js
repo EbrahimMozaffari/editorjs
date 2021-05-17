@@ -168,7 +168,7 @@ fileImg.disabled = true;
           
           let url = await axios
             .post(
-              "https://apiadmin.tebyan.net/Image/CreateImage",
+              "https://apiadmin.tebyan.net/Image/CreateImageFullOutput",
               {
                 Base64Image: base64Img,
                 Base64SmallImage: "",
@@ -186,7 +186,7 @@ fileImg.disabled = true;
               }
             )
             .then((response) => {
-              console.log("SUCCESS!!", response.data);
+              //console.log("SUCCESS!!", response.data);
               //console.log("picture!!", response.data.data.SummaryPic);
               // return response.data.file.url;
               return response.data;
@@ -200,17 +200,18 @@ fileImg.disabled = true;
 
           if (url) {
             //let res = data.split("++");
-            console.log("url---->",url.data);
-            // var  aaa = JSON.stringify(url.data);
-            // console.log("aaa---->",aaa.UrlPicID);
-            // var jsss = JSON.parse(url.data.data);
-            // console.log("jsss---->",jsss.UrlPicID);
+            //console.log("url---->",url.data);
+             //var  aaa = JSON.stringify(url.data);
+             //console.log("aaa---->",aaa.UrlPicID);
+             let jsParsed = JSON.parse(url.data);
+
+             //console.log("jsss---->",jsParsed.UrlPicID);
             const image = document.createElement("img");
             const caption = document.createElement("input");
             const alt = document.createElement("input");
 
             image.alt = "";
-            image.src = url.data.UrlPicID ? url.data.UrlPicID : "";
+            image.src = jsParsed.UrlPicID ? `https://img.tebyan.net/${jsParsed.UrlPicID}` : "";
             image.setAttribute("width", "100%");
             image.classList.add("image-tool__image");
             caption.classList.add(
@@ -234,7 +235,7 @@ fileImg.disabled = true;
                 alt.classList.add("has-error");
               }
             });
-            caption.value = "";
+            caption.value = jsParsed.SummaryPic ? jsParsed.SummaryPic : "";
             alt.value = "";
             caption.placeholder = "نوشتن توضیحات برای عکس (اختیاری)";
             alt.placeholder = "نوشتن alt برای عکس (اجباری)";

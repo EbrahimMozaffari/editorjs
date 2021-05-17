@@ -17,7 +17,7 @@
     <!-- <input-tag placeholder="xczxcczcc" v-model="tags" :limit="2"></input-tag>
     <input-tag  v-model="tags"></input-tag>
     <input type="text" v-model="tags"> -->
-    <form action="" id="editorForm">
+    <form action="" id="editorForm" v-on:submit.prevent>
       <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
       <!-- Button trigger modal -->
       <button
@@ -80,7 +80,7 @@ import { UploaderImg } from "../classes/uploaderImage";
 import { videoFromGallery } from "../classes/videoFromGallery";
 
 import Modal from "./modal";
-import VideoModal from "./videoModal";
+import VideoModal from "./videoGalleryModal";
 
 import InputTag from "vue-input-tag";
 
@@ -95,6 +95,24 @@ export default {
         //  readOnly: true,
         // autofocus: true,
         tools: {
+          header: {
+            class: Header,
+            inlineToolbar: true,
+            tunes: ["anyTuneName"],
+            config: {
+              placeholder: " عنوان  ",
+              levels: [1, 2, 3, 4, 5, 6],
+              defaultLevel: 3,
+            },
+          },
+          paragraph: {
+            class: Paragraph,
+            inlineToolbar: true,
+            tunes: ["anyTuneName"],
+            config: {
+              placeholder: "نوشتن را شروع کنید...",
+            },
+          },
           imgGallery: MyTool,
           uploaderImg: UploaderImg,
           videoFromGallery: videoFromGallery,
@@ -111,24 +129,8 @@ export default {
           // mytool:{
           //   class:firstimage,
           // },
-          paragraph: {
-            class: Paragraph,
-            inlineToolbar: true,
-            tunes: ["anyTuneName"],
-            config: {
-              placeholder: "نوشتن را شروع کنید...",
-            },
-          },
-          header: {
-            class: Header,
-            inlineToolbar: true,
-            tunes: ["anyTuneName"],
-            config: {
-              placeholder: " عنوان  ",
-              levels: [1, 2, 3, 4, 5, 6],
-              defaultLevel: 3,
-            },
-          },
+          
+          
           // header1: {
           //   class: Header1,
 

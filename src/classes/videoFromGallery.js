@@ -41,7 +41,7 @@ export class videoFromGallery {
         });
         input.addEventListener('blur', (event) => {
           if(input.value){
-            this._createImage(input.value);
+            this._createVideo(input.value);
           }
           
         });
@@ -61,7 +61,36 @@ export class videoFromGallery {
   _click() {
     document.getElementById("videoModalBtn").click();
   }
+  _createVideo(data){
+    let res = data.split("++");
 
+    const vuePlyr = document.createElement("vue-plyr");
+    vuePlyr.setAttribute("ref", "plyr");
+    vuePlyr.classList.add("image-tool__image");
+
+    const video = document.createElement("video");
+    video.setAttribute("id", "video");
+    video.setAttribute("controls", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("data-poster", res[1]);
+
+    const source = document.createElement("source");
+     video.setAttribute("size", "720");
+     video.setAttribute("src", res[0]);
+    /*<div class="myplayer video video-container pb-0 over-flow-hidden col-12 col-md-6 mx-auto">
+      <vue-plyr ref="plyr" class="mw-100">
+        <video
+          id="video"
+          controls
+          playsinline
+          data-poster="https://img.tebyan.net/big/1400/02//4516110811254113205200892161142815182200234.jpg"
+        >
+          <source size="720" src="https://mov.tebyan.net/1400/02/akhbar_349198.mp4" type="video/mp4" />
+        </video>
+      </vue-plyr>
+
+    </div> */
+  }
   _createImage(data) {
     // let res = data.split("++");
     const image = document.createElement("img");
