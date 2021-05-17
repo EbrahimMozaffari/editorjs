@@ -1,5 +1,7 @@
 <template>
   <div id="home">
+
+
     <!-- <div class="myplayer video video-container pb-0 over-flow-hidden col-12 col-md-6 mx-auto">
       <vue-plyr ref="plyr" class="mw-100">
         <video
@@ -78,6 +80,7 @@ import ImageTool from "@editorjs/image";
 import { MyTool } from "../classes/imageFromGallery";
 import { UploaderImg } from "../classes/uploaderImage";
 import { videoFromGallery } from "../classes/videoFromGallery";
+import { UploaderVideo } from "../classes/uploaderVideo";
 
 import Modal from "./modal";
 import VideoModal from "./videoGalleryModal";
@@ -116,6 +119,7 @@ export default {
           imgGallery: MyTool,
           uploaderImg: UploaderImg,
           videoFromGallery: videoFromGallery,
+          uploaderVideo: UploaderVideo,
           anyTuneName: {
             class: require("editorjs-text-alignment-blocktune/dist/bundle"),
             config: {
@@ -403,6 +407,15 @@ export default {
         data: {
           blocks: [
             // {
+            //   type: "videoFromGallery",
+            //   data: {
+            //     url:
+            //       "https://mov.tebyan.net/1400/02/lumuwaco_349631.mp4",
+            //     poster: "https://img.tebyan.net/big/1400/02//64715021421324510231195146851562553418488.jpg",
+               
+            //   },
+            // },
+            // {
             //   type: "header",
             //   data: {
             //     text: "چیزی که کاربر میبینه",
@@ -657,13 +670,7 @@ export default {
     },
   },
   mounted() {
-    $("#videoModal").on("hide.bs.modal", function (e) {
-      console.log("hide image modalll");
-      var mines = document.querySelectorAll(".videotoolblock > input");
-      let len = mines.length;
-      mines[len - 1].value = document.getElementById("videoUrl").value;
-      mines[len - 1].focus();
-    });
+   
   },
   computed: {
     GalleryData() {
@@ -727,11 +734,16 @@ export default {
 .svg-icon polygon,
 .svg-icon rect {
   fill: #707684;
+  stroke-width:2 ;
 }
-
-.svg-icon circle {
-  stroke: #4691f6;
-  stroke-width: 3;
+.svg-icon-upload {
+  // width: 1.5em;
+  // height: 1.5em;
+}
+.svg-icon-upload path
+ {
+  stroke: #ffffff;
+ 
 }
 .figcaption {
   position: relative;

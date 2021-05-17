@@ -26,7 +26,7 @@ export class videoFromGallery {
     } else {
       if (this.data && this.data.url) {
         //this._createImage(this.data) 
-         this._uploadedImage(this.data);
+         this._readOnlyImage(this.data);
       } else {
         const input = document.createElement("input");
         input.placeholder = "آدرس ویدئو خود را در این قسمت وارد نمائید...";
@@ -66,17 +66,25 @@ export class videoFromGallery {
 
     const vuePlyr = document.createElement("vue-plyr");
     vuePlyr.setAttribute("ref", "plyr");
-    vuePlyr.classList.add("image-tool__image");
+    //vuePlyr.classList.add("col-12");
 
     const video = document.createElement("video");
     video.setAttribute("id", "video");
     video.setAttribute("controls", "");
     video.setAttribute("playsinline", "");
     video.setAttribute("data-poster", res[1]);
+    video.setAttribute("width", "100%");
 
     const source = document.createElement("source");
-     video.setAttribute("size", "720");
-     video.setAttribute("src", res[0]);
+    source.setAttribute("size", "720");
+    source.setAttribute("src", res[0]);
+
+     this.wrapper.innerHTML = "";
+     video.appendChild(source);
+     vuePlyr.appendChild(video);
+     this.wrapper.appendChild(vuePlyr);
+
+    //  video.setAttribute("src", res[0]);
     /*<div class="myplayer video video-container pb-0 over-flow-hidden col-12 col-md-6 mx-auto">
       <vue-plyr ref="plyr" class="mw-100">
         <video
@@ -91,29 +99,7 @@ export class videoFromGallery {
 
     </div> */
   }
-  _createImage(data) {
-    // let res = data.split("++");
-    const image = document.createElement("img");
-    const caption = document.createElement("input");
-    const alt = document.createElement("input");
 
-    image.alt =  "";
-    image.src = data ? data : "";
-    image.setAttribute("width", "100%");
-    image.classList.add("image-tool__image");
-    caption.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
-    alt.classList.add("cdx-input", "image-tool__caption","col-12","col-md-6");
-
-    caption.value=  "";
-    alt.value= "";
-    caption.placeholder =  "نوشتن عنوان برای عکس (اختیاری)";
-    alt.placeholder =  "نوشتن alt برای عکس (اختیاری)";
-    this.wrapper.innerHTML = "";
-    this.wrapper.appendChild(image);
-    this.wrapper.appendChild(caption);
-    this.wrapper.appendChild(alt);
-
-  }
   _uploadedImage(data) {
     
     const image = document.createElement("img");
@@ -138,6 +124,28 @@ export class videoFromGallery {
 
   }
   _readOnlyImage(data) {
+
+    const vuePlyr = document.createElement("vue-plyr");
+    vuePlyr.setAttribute("ref", "plyr");
+    //vuePlyr.classList.add("col-12");
+
+    const video = document.createElement("video");
+    video.setAttribute("id", "video");
+    video.setAttribute("controls", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("data-poster", data.poster);
+    video.setAttribute("width", "100%");
+
+    const source = document.createElement("source");
+    source.setAttribute("size", "720");
+    source.setAttribute("src", data.url);
+
+     this.wrapper.innerHTML = "";
+     video.appendChild(source);
+     vuePlyr.appendChild(video);
+     this.wrapper.appendChild(vuePlyr);
+
+     /*
     const image = document.createElement("img");
     const caption = document.createElement("p");
     image.src = data.url;
@@ -151,6 +159,7 @@ export class videoFromGallery {
     this.wrapper.innerHTML = "";
     this.wrapper.appendChild(image);
     this.wrapper.appendChild(caption);
+    */
   }
 
       // function setAttributes(el, attrs) {
@@ -162,16 +171,17 @@ export class videoFromGallery {
   save(blockContent) {
     // if()
     //  const mark = blockContent.querySelector('wraper');
-    const image = blockContent.querySelector("img");
-    const caption = blockContent.querySelectorAll("input");
+    const video = blockContent.querySelector("video");
+    const source = blockContent.querySelector("source");
+    //console.log("source"+source);
     //const alt = blockContent.querySelector("input");
     // console.log("this.wrapper",this.wrapper);
 
-    if (image) {
+    if (video) {
       return {
-        url: image.src,
-        caption: caption[0].value,
-        alt:  caption[1].value,
+        url: source.src,
+        poster: video.getAttribute("data-poster"),
+       
       };
     } else {
       this.wrapper.innerHTML = "";
