@@ -16,7 +16,8 @@ export class UploaderVideo {
     this.api = api;
     this.readOnly = readOnly;
     this.wrapper = undefined;
-    this.posterFile=null;
+    this.posterFile = null;
+    this.posterBase64 = null;
   }
 
   render() {
@@ -166,6 +167,7 @@ export class UploaderVideo {
         this.wrapper.appendChild(div1);
         this.wrapper.appendChild(div2);
         let posterFile = this.posterFile;
+        //let getbase64 = this._getBase64();
         Poster.addEventListener("change", posterFunction, true);
         async function posterFunction() {
           posterFile = this.files;
@@ -206,29 +208,33 @@ export class UploaderVideo {
           div.appendChild(imgloading);
           wrapper.appendChild(div);
 
-          let base64Img = await imageToBase64(URL.createObjectURL(posterFile[0])) // Path to the image
-            .then((response) => {
-              return response;
-            })
-            .catch((error) => {
-              return error;
-            });
-            
+          // let base64Img = await imageToBase64(
+          //   URL.createObjectURL(posterFile[0])
+          // ) // Path to the image
+          //   .then((response) => {
+          //     return response;
+          //   })
+          //   .catch((error) => {
+          //     return error;
+          //   });
+
+          // get a reference to the file
+          const file = posterFile[0];
+
+          let base64Img = await _getBase64(file)
+          .then((response)=>{
+            return response.replace("data:", "")
+            .replace(/^.+,/, "");;
+          });
+          console.log("base",base64Img);
+         
+          
           /*
          
           var ax_title = title.value;
           var ax_summary = summary.value;
           var ax_keyword = inputTags.value;
-          
-         
-
-          //let base64Img = await _uploadBase64(fileList[0])
-
-          // const [file] = fileList[0];
-          // if (file) {
-          //   console.log("fileList[0]", URL.createObjectURL(file));
-          // }
-
+  
           
 
           let url = await axios
@@ -325,6 +331,14 @@ export class UploaderVideo {
     //     //this._createImage(event.clipboardData.getData("text"));
     //     console.log("salam");
     //   });
+    function _getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    }
 
     return this.wrapper;
   }
@@ -333,7 +347,14 @@ export class UploaderVideo {
     element.click();
   }
 
- 
+  // _getBase64(file) {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (error) => reject(error);
+  //   });
+  // }
 
   _createImage(data) {
     if (data) {
@@ -378,7 +399,7 @@ export class UploaderVideo {
       this.wrapper.appendChild(alt);
     }
   }
-  
+
   _readOnlyImage(data) {
     const image = document.createElement("img");
     const caption = document.createElement("p");

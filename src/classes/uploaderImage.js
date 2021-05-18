@@ -1,4 +1,4 @@
-import imageToBase64 from "image-to-base64/browser";
+// import imageToBase64 from "image-to-base64/browser";
 export class UploaderImg {
   static get toolbox() {
     return {
@@ -38,6 +38,7 @@ export class UploaderImg {
         fileImg.setAttribute("type", "file");
         fileImg.classList.add("custom-file-input");
         fileImg.setAttribute("id", "customFile");
+        fileImg.setAttribute("accept", "image/*");
 fileImg.disabled = true;
         const label = document.createElement("label");
         label.classList.add("custom-file-label");
@@ -150,14 +151,19 @@ fileImg.disabled = true;
           //   console.log("fileList[0]", URL.createObjectURL(file));
           // }
 
-          let base64Img = await imageToBase64(URL.createObjectURL(fileList[0])) // Path to the image
-            .then((response) => {
-              return response;
-            })
-            .catch((error) => {
-              return error;
-            });
-
+          // let base64Img = await imageToBase64(URL.createObjectURL(fileList[0])) // Path to the image
+          //   .then((response) => {
+          //     return response;
+          //   })
+          //   .catch((error) => {
+          //     return error;
+          //   });
+            let base64Img = await _getBase64(fileList[0])
+          .then((response)=>{
+            return response.replace("data:", "")
+            .replace(/^.+,/, "");
+          });
+          
           // console.log("base64Img",  base64Img);
 
           //http://ebrahimmozaffari.ir/demo/about-us/
@@ -258,7 +264,14 @@ fileImg.disabled = true;
     //     //this._createImage(event.clipboardData.getData("text"));
     //     console.log("salam");
     //   });
-
+    function _getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    }
     return this.wrapper;
   }
   async _handleFiles() {
