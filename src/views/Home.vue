@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-
+<!-- <CropImage /> -->
 
     <!-- <div class="myplayer video video-container pb-0 over-flow-hidden col-12 col-md-6 mx-auto">
       <vue-plyr ref="plyr" class="mw-100">
@@ -84,6 +84,7 @@ import { UploaderVideo } from "../classes/uploaderVideo";
 
 import Modal from "./modal";
 import VideoModal from "./videoGalleryModal";
+import CropImage from "./CropImage";
 
 import InputTag from "vue-input-tag";
 
@@ -685,6 +686,7 @@ export default {
     Modal,
     VideoModal,
     InputTag,
+    CropImage,
   },
 };
 </script>
