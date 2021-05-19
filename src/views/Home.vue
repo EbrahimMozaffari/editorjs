@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-<!-- <CropImage /> -->
+<CropImage />
 
     <!-- <div class="myplayer video video-container pb-0 over-flow-hidden col-12 col-md-6 mx-auto">
       <vue-plyr ref="plyr" class="mw-100">
@@ -19,8 +19,18 @@
     <!-- <input-tag placeholder="xczxcczcc" v-model="tags" :limit="2"></input-tag>
     <input-tag  v-model="tags"></input-tag>
     <input type="text" v-model="tags"> -->
+    <button
+        type="button"
+        id="cropmodalbtn"
+        class="btn btn-primary d-none"
+        data-toggle="modal"
+        data-target="#cropmodal"
+        
+      >
+        Launch cropmodal modal
+      </button>
     <form action="" id="editorForm" v-on:submit.prevent>
-      <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
+      <button class="btn btn-primary" @click="invokeSave">Save</button>
       <!-- Button trigger modal -->
       <button
         type="button"
@@ -96,7 +106,7 @@ export default {
       tags: [],
       showModal: false,
       config: {
-        //  readOnly: true,
+        // readOnly: true,
         // autofocus: true,
         tools: {
           header: {
@@ -407,31 +417,31 @@ export default {
         },
         data: {
           blocks: [
-            // {
-            //   type: "videoFromGallery",
-            //   data: {
-            //     url:
-            //       "https://mov.tebyan.net/1400/02/lumuwaco_349631.mp4",
-            //     poster: "https://img.tebyan.net/big/1400/02//64715021421324510231195146851562553418488.jpg",
+            {
+              type: "videoFromGallery",
+              data: {
+                url:
+                  "https://mov.tebyan.net/1400/02/lumuwaco_349631.mp4",
+                poster: "https://img.tebyan.net/big/1400/02//64715021421324510231195146851562553418488.jpg",
                
-            //   },
-            // },
-            // {
-            //   type: "header",
-            //   data: {
-            //     text: "چیزی که کاربر میبینه",
-            //     level: 4,
-            //   },
-            // },
-            // {
-            //   type: "imgGallery",
-            //   data: {
-            //     url:
-            //       "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
-            //     caption: "عنوان عکس 1",
-            //     alt: "salam in yek alt ast0",
-            //   },
-            // },
+              },
+            },
+            {
+              type: "header",
+              data: {
+                text: "چیزی که کاربر میبینه",
+                level: 4,
+              },
+            },
+            {
+              type: "imgGallery",
+              data: {
+                url:
+                  "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+                caption: "عنوان عکس 1",
+                alt: "salam in yek alt ast0",
+              },
+            },
             //  {
             //    type: "uploaderImg",
             //    data: {
@@ -596,6 +606,9 @@ export default {
     };
   },
   methods: {
+    mymethod(){
+      console.log("mymethod fired");
+    },
     onInitialized(editor) {
       //console.log(editor);
     },

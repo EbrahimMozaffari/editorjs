@@ -1,4 +1,5 @@
 // import imageToBase64 from "image-to-base64/browser";
+import Cropper from 'cropperjs';
 export class UploaderImg {
   static get toolbox() {
     return {
@@ -39,7 +40,8 @@ export class UploaderImg {
         fileImg.classList.add("custom-file-input");
         fileImg.setAttribute("id", "customFile");
         fileImg.setAttribute("accept", "image/*");
-fileImg.disabled = true;
+
+        fileImg.disabled = true;
         const label = document.createElement("label");
         label.classList.add("custom-file-label");
         label.setAttribute("for", "customFile");
@@ -52,7 +54,7 @@ fileImg.disabled = true;
           "col-12",
           "col-md-12"
         );
-        label1.innerText = "* لطفا موارد زیر را کامل پر نمائید"
+        label1.innerText = "* لطفا موارد زیر را کامل پر نمائید";
 
         const inputTags = document.createElement("input");
         inputTags.classList.add(
@@ -63,9 +65,19 @@ fileImg.disabled = true;
         );
         inputTags.placeholder = "تگ های خود را با , از هم جدا نمائید";
         inputTags.addEventListener("keyup", () => {
-          if(inputTags.value){ inputTags.classList.remove("has-error");}else{inputTags.classList.add("has-error");}
-           if(title.value && summary.value && inputTags.value){fileImg.disabled = false;}else{fileImg.disabled = true;}
-         });
+          if (inputTags.value) {
+            inputTags.classList.remove("has-error");
+          } else {
+            inputTags.classList.add("has-error");
+          }
+          if (title.value && summary.value && inputTags.value) {
+            fileImg.disabled = false;
+            label1.innerText = " ";
+          } else {
+            fileImg.disabled = true;
+            label1.innerText = "* لطفا موارد زیر را کامل پر نمائید";
+          }
+        });
         const summary = document.createElement("input");
         summary.classList.add(
           "cdx-input",
@@ -73,11 +85,21 @@ fileImg.disabled = true;
           "col-12",
           "col-md-4"
         );
-        summary.placeholder="توضیحات عکس را وارد نمائید";
+        summary.placeholder = "توضیحات عکس را وارد نمائید";
         summary.addEventListener("keyup", () => {
-          if(summary.value){ summary.classList.remove("has-error");}else{summary.classList.add("has-error");}
-           if(title.value && summary.value && inputTags.value){fileImg.disabled = false;}else{fileImg.disabled = true;}
-         });
+          if (summary.value) {
+            summary.classList.remove("has-error");
+          } else {
+            summary.classList.add("has-error");
+          }
+          if (title.value && summary.value && inputTags.value) {
+            fileImg.disabled = false;
+            label1.innerText = " ";
+          } else {
+            fileImg.disabled = true;
+            label1.innerText = "* لطفا موارد زیر را کامل پر نمائید";
+          }
+        });
         const title = document.createElement("input");
         title.classList.add(
           "cdx-input",
@@ -85,11 +107,23 @@ fileImg.disabled = true;
           "col-12",
           "col-md-4"
         );
-        title.placeholder="عنوان عکس";
+        title.placeholder = "عنوان عکس";
+
         title.addEventListener("keyup", () => {
-          if(title.value){ title.classList.remove("has-error");}else{title.classList.add("has-error");}
-           if(title.value && summary.value && inputTags.value){fileImg.disabled = false;}else{fileImg.disabled = true;}
-         });
+          if (title.value) {
+            title.classList.remove("has-error");
+          } else {
+            title.classList.add("has-error");
+          }
+          if (title.value && summary.value && inputTags.value) {
+            fileImg.disabled = false;
+            label1.innerText = " ";
+          } else {
+            fileImg.disabled = true;
+            label1.innerText = "* لطفا موارد زیر را کامل پر نمائید";
+          }
+        });
+
         // inputTag.setAttribute("v-model", "tags");
         // inputHide.setAttribute("v-model", "tags");
         // inputHide.setAttribute("type", "text");
@@ -115,15 +149,69 @@ fileImg.disabled = true;
         this.wrapper.appendChild(title);
         this.wrapper.appendChild(summary);
         this.wrapper.appendChild(inputTags);
-        
-        
+
         // let funcCreate = this._createImage();
         // let funcHandleImage = this._handleImage();
         // this.wrapper.appendChild(input);
         //this._click(fileImg);
         let wrapper = this.wrapper;
-        console.log("myjson",title.value,summary.value,inputTags.value)
-        
+        // console.log("myjson",title.value,summary.value,inputTags.value)
+        fileImg.addEventListener("change", myfile, true);
+        async function myfile() {
+          let fileList = this.files;
+          let inputsrc = document.querySelector("#cropedImgUrl");
+
+          //let cropimage = document.querySelector("#cropimage");
+          let croperwraper = document.querySelector("#croperwraper");
+          croperwraper.innerHTML = "";
+          let cropimage = document.createElement("img");
+          cropimage.src = URL.createObjectURL(fileList[0]);
+          cropimage.setAttribute("width", "100%");
+          cropimage.setAttribute("id", "cropimage");
+          croperwraper.appendChild(cropimage);
+          
+          // inputsrc.value = URL.createObjectURL(fileList[0]);
+          // console.log("changed", inputsrc.value);
+          
+          // document.querySelector("#croperwraper").src = inputsrc.value;
+          //const image = document.getElementById("cropimage");
+          // if(cropper){
+          //   cropper.destroy();
+          // }
+          _click();
+          const cropper = new Cropper(cropimage, {
+            aspectRatio: 16 / 9,
+            crop(event) {
+              //console.log(cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 }))
+              //document.querySelector("#canvasImg").src = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 });
+              let canvas = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 });
+              console.log("canvas",canvas);
+              // document.querySelector("#canvasDiv").innerHTML="";
+              // document.querySelector("#canvasDiv").appendChild(canvas) ;
+              var dataURL = canvas.toDataURL();
+              dataURL.replace("data:", "")
+                .replace(/^.+,/, "");
+                console.log("dataURL",dataURL);
+                document.querySelector("#cropedImgBase64").value = dataURL;
+          //        let base64Img = _getBase64(URL.createObjectURL())
+          // .then((response)=>{
+          //   return response.replace("data:", "")
+          //   .replace(/^.+,/, "");
+          // });
+          //    // let base64Img = _uploadBase64(cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 }))
+          //    console.log("base64Img",base64Img);
+              // console.log(event.detail.x);
+              // console.log(event.detail.y);
+              // console.log(event.detail.width);
+              // console.log(event.detail.height);
+              // console.log(event.detail.rotate);
+              // console.log(event.detail.scaleX);
+              // console.log(event.detail.scaleY);
+            },
+          });
+          
+        }
+        /*       
         fileImg.addEventListener("change", myfile, true);
         async function myfile() {
           let fileList = this.files;
@@ -251,7 +339,7 @@ fileImg.disabled = true;
             wrapper.appendChild(alt);
           }
         }
-
+*/
         // fileImg.addEventListener("selected", (event) => {
         //   console.log("salam change shod",event);
         //   this._changedFile();
@@ -271,6 +359,9 @@ fileImg.disabled = true;
         reader.onload = () => resolve(reader.result);
         reader.onerror = (error) => reject(error);
       });
+    }
+    function _click() {
+      document.getElementById("cropmodalbtn").click();
     }
     return this.wrapper;
   }
@@ -302,8 +393,11 @@ fileImg.disabled = true;
     //   });
     /* now you can work with the file list */
   }
-  _click(element) {
-    element.click();
+  // _click(element) {
+  //   element.click();
+  // }
+  _click() {
+    document.getElementById("cropmodalbtn").click();
   }
   _changedFile() {
     console.log("changed!!!");

@@ -27,6 +27,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "core-js": "^3.6.5",
+    "cropperjs": "^1.5.11",
     "editorjs-alert": "^1.0.3",
     "editorjs-header-with-anchor": "^2.6.0",
     "editorjs-paragraph-with-alignment": "^3.0.0",

@@ -27,6 +27,12 @@ const routes = [
     name: 'Mytool',
 
     component: () => import('../views/Mytool.vue')
+  },
+  {
+    path: '/croperTest',
+    name: 'CroperTest',
+
+    component: () => import('../views/croperTest.vue')
   }
 ]
 
