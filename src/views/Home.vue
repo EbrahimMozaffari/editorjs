@@ -417,6 +417,13 @@ export default {
         },
         data: {
           blocks: [
+             {
+              type: "header",
+              data: {
+                text: "عنوان مقاله",
+                level: 4,
+              },
+            },
             {
               type: "videoFromGallery",
               data: {
@@ -426,13 +433,7 @@ export default {
                
               },
             },
-            {
-              type: "header",
-              data: {
-                text: "چیزی که کاربر میبینه",
-                level: 4,
-              },
-            },
+           
             {
               type: "imgGallery",
               data: {
