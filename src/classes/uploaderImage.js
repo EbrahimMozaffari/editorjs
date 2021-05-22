@@ -1,5 +1,5 @@
 // import imageToBase64 from "image-to-base64/browser";
-import Cropper from 'cropperjs';
+import Cropper from "cropperjs";
 export class UploaderImg {
   static get toolbox() {
     return {
@@ -17,6 +17,7 @@ export class UploaderImg {
     this.api = api;
     this.readOnly = readOnly;
     this.wrapper = undefined;
+    this.cropper = null;
   }
 
   render() {
@@ -155,7 +156,9 @@ export class UploaderImg {
         // this.wrapper.appendChild(input);
         //this._click(fileImg);
         let wrapper = this.wrapper;
+        let globalCropper = null;
         // console.log("myjson",title.value,summary.value,inputTags.value)
+
         fileImg.addEventListener("change", myfile, true);
         async function myfile() {
           let fileList = this.files;
@@ -169,55 +172,29 @@ export class UploaderImg {
           cropimage.setAttribute("width", "100%");
           cropimage.setAttribute("id", "cropimage");
           croperwraper.appendChild(cropimage);
-          
+
           // inputsrc.value = URL.createObjectURL(fileList[0]);
           // console.log("changed", inputsrc.value);
-          
+
           // document.querySelector("#croperwraper").src = inputsrc.value;
           //const image = document.getElementById("cropimage");
+
+          _click();
           // if(cropper){
           //   cropper.destroy();
           // }
-          _click();
-          const cropper = new Cropper(cropimage, {
+
+          globalCropper = new Cropper(cropimage, {
             aspectRatio: 16 / 9,
-            crop(event) {
-              //console.log(cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 }))
-              //document.querySelector("#canvasImg").src = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 });
-              let canvas = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 });
-              console.log("canvas",canvas);
-              // document.querySelector("#canvasDiv").innerHTML="";
-              // document.querySelector("#canvasDiv").appendChild(canvas) ;
-              var dataURL = canvas.toDataURL();
-              dataURL.replace("data:", "")
-                .replace(/^.+,/, "");
-                console.log("dataURL",dataURL);
-                document.querySelector("#cropedImgBase64").value = dataURL;
-          //        let base64Img = _getBase64(URL.createObjectURL())
-          // .then((response)=>{
-          //   return response.replace("data:", "")
-          //   .replace(/^.+,/, "");
-          // });
-          //    // let base64Img = _uploadBase64(cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 }))
-          //    console.log("base64Img",base64Img);
-              // console.log(event.detail.x);
-              // console.log(event.detail.y);
-              // console.log(event.detail.width);
-              // console.log(event.detail.height);
-              // console.log(event.detail.rotate);
-              // console.log(event.detail.scaleX);
-              // console.log(event.detail.scaleY);
-            },
+            crop(event) {},
           });
-          
+          document.querySelector("#cropedImgBase64").value = globalCropper;
         }
-        /*       
-        fileImg.addEventListener("change", myfile, true);
-        async function myfile() {
-          let fileList = this.files;
-          var ax_title= title.value;
-        var ax_summary= summary.value;
-        var ax_keyword= inputTags.value;
+
+        let uploaditsener = document.querySelector("#uploadImg");
+        window.removeEventListener("click", uploaditsener);
+        uploaditsener.addEventListener("click", async() => {
+
           //loading start
           wrapper.innerHTML = "";
           const div = document.createElement("DIV");
@@ -232,39 +209,24 @@ export class UploaderImg {
           div.appendChild(imgloading);
           wrapper.appendChild(div);
 
-          //let base64Img = await _uploadBase64(fileList[0])
 
-          // const [file] = fileList[0];
-          // if (file) {
-          //   console.log("fileList[0]", URL.createObjectURL(file));
-          // }
-
-          // let base64Img = await imageToBase64(URL.createObjectURL(fileList[0])) // Path to the image
-          //   .then((response) => {
-          //     return response;
-          //   })
-          //   .catch((error) => {
-          //     return error;
-          //   });
-            let base64Img = await _getBase64(fileList[0])
-          .then((response)=>{
-            return response.replace("data:", "")
-            .replace(/^.+,/, "");
+          //console.log("global", globalCropper);
+          let canvas = globalCropper.getCroppedCanvas({
+            maxWidth: 4096,
+            maxHeight: 4096,
           });
-          
-          // console.log("base64Img",  base64Img);
-
-          //http://ebrahimmozaffari.ir/demo/about-us/
-          //let formData = new FormData();
-          //formData.append("Base64Image", base64Img);
-          //console.log("formData", formData);
-          //Param.append('file', file, file.name);
-          
+          var dataURL = canvas.toDataURL();
+          dataURL =  dataURL.replace("data:", "").replace("image/png;base64,", "").replace(/^.+,/, "");
+           console.log("dataURL", dataURL);
+          var ax_title= title.value;
+          var ax_summary= summary.value;
+          var ax_keyword= inputTags.value;
+          // console.log("ax_title",ax_title,ax_summary,ax_keyword)
           let url = await axios
             .post(
               "https://apiadmin.tebyan.net/Image/CreateImageFullOutput",
               {
-                Base64Image: base64Img,
+                Base64Image: dataURL,
                 Base64SmallImage: "",
                 Keyword:ax_keyword,
                 PicId: "",
@@ -275,7 +237,7 @@ export class UploaderImg {
                 headers: {
                   "Content-Type": "application/json",
                   //"Content-Type": "multipart/form-data",
-                  Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI5MDQ5Mzc0Ni1jOTg1LTQ5MDgtOWM4My1jZDcyZTZhZDAwYzIiLCJpYXQiOiI1LzE1LzIxIDEyOjMzOjQzIFBNIiwiSWQiOjQyMCwibmJmIjoxNjIxMDY1ODIzLCJleHAiOjE3MDc0NjU4MjMsImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.32Ajhu6yslM-LsaL1-3humdOud0LMAaw-Quac-rGqps`,
+                  "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiJlZTIxM2ZjNy1hMDVjLTRkYzYtOTM1My0zNTM3YTUwMWYyMzYiLCJpYXQiOiI1LzIyLzIxIDEwOjI3OjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIxNjYzMDI5LCJleHAiOjE3MDgwNjMwMjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.ux95BRPAr5IQmoi-YieLAj08Z8TDYH-Je8HkIUUWA0Q`,
                 },
               }
             )
@@ -291,7 +253,7 @@ export class UploaderImg {
             });
 
           //console.log("url====>" + url);
-
+            //var url111 =false;
           if (url) {
             //let res = data.split("++");
             //console.log("url---->",url.data);
@@ -338,87 +300,28 @@ export class UploaderImg {
             wrapper.appendChild(caption);
             wrapper.appendChild(alt);
           }
-        }
-*/
-        // fileImg.addEventListener("selected", (event) => {
-        //   console.log("salam change shod",event);
-        //   this._changedFile();
-        //   // this._createImage(event.clipboardData.getData("text"));
-        // });
+       
+
+
+        });
+
       }
     }
 
-    // btn.addEventListener("click", (event) => {
-    //     //this._createImage(event.clipboardData.getData("text"));
-    //     console.log("salam");
-    //   });
-    function _getBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-      });
-    }
     function _click() {
       document.getElementById("cropmodalbtn").click();
     }
     return this.wrapper;
   }
-  async _handleFiles() {
-    const fileList = await this.files;
-    label.innerText = await fileList[0].name;
 
-    // loading
-
-    let formData = await new FormData();
-    await formData.append("image", fileList[0]);
-    let imgUrl = await _handleImage(formData);
-    await _createImage(imgUrl);
-
-    //await console.log("imgUrl", imgUrl);
-    // await axios
-    //   .post("http://ebrahimmozaffari.ir/demo/about-us/", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //   .then((response) =>{
-    //     console.log("SUCCESS!!",response.data.file.url);
-    //     funcCreate(response.data.file.url);
-
-    //   })
-    //   .catch(function() {
-    //     console.log("FAILURE!!");
-    //   });
-    /* now you can work with the file list */
-  }
   // _click(element) {
   //   element.click();
   // }
   _click() {
     document.getElementById("cropmodalbtn").click();
   }
-  _changedFile() {
-    console.log("changed!!!");
-  }
-  async _handleImage(formData) {
-    await axios
-      .post("http://ebrahimmozaffari.ir/demo/about-us/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log("SUCCESS!!", response.data.file.url);
-        return response.data.file.url;
-        //funcCreate(response.data.file.url);
-      })
-      .catch(function() {
-        console.log("FAILURE!!");
-      });
-    /* now you can work with the file list */
-  }
+ 
+ 
 
   _createImage(data) {
     if (data) {

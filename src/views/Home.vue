@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-<CropImage />
+    <CropImage />
 
     <!-- <div class="myplayer video video-container pb-0 over-flow-hidden col-12 col-md-6 mx-auto">
       <vue-plyr ref="plyr" class="mw-100">
@@ -20,17 +20,16 @@
     <input-tag  v-model="tags"></input-tag>
     <input type="text" v-model="tags"> -->
     <button
-        type="button"
-        id="cropmodalbtn"
-        class="btn btn-primary d-none"
-        data-toggle="modal"
-        data-target="#cropmodal"
-        
-      >
-        Launch cropmodal modal
-      </button>
+      type="button"
+      id="cropmodalbtn"
+      class="btn btn-primary d-none"
+      data-toggle="modal"
+      data-target="#cropmodal"
+    >
+      Launch cropmodal modal
+    </button>
     <form action="" id="editorForm" v-on:submit.prevent>
-      <button class="btn btn-primary" @click="invokeSave">Save</button>
+      <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
       <!-- Button trigger modal -->
       <button
         type="button"
@@ -57,6 +56,10 @@
       <div class="demo" dir="rtl">
         <h1 style="text-align: center">ویرایشگر</h1>
         <editor ref="editor" :config="config" :initialized="onInitialized" />
+
+        <hr />
+        <hr />
+        <div id="content"></div>
         <!-- <button @click="invokeSave">Save</button> -->
       </div>
       <!-- <input type="text" name="" id="" required> -->
@@ -144,8 +147,7 @@ export default {
           // mytool:{
           //   class:firstimage,
           // },
-          
-          
+
           // header1: {
           //   class: Header1,
 
@@ -383,7 +385,7 @@ export default {
         onChange: (args) => {
           console.log("Now I know that Editor's content changed!");
           // event.preventDefault();
-         /* setTimeout(() => {
+          /* setTimeout(() => {
             let validFlag = true;
 
             let nameField = document.getElementsByClassName("validForm");
@@ -417,32 +419,30 @@ export default {
         },
         data: {
           blocks: [
-             {
-              type: "header",
-              data: {
-                text: "عنوان مقاله",
-                level: 4,
-              },
-            },
-            {
-              type: "videoFromGallery",
-              data: {
-                url:
-                  "https://mov.tebyan.net/1400/02/lumuwaco_349631.mp4",
-                poster: "https://img.tebyan.net/big/1400/02//64715021421324510231195146851562553418488.jpg",
-               
-              },
-            },
-           
-            {
-              type: "imgGallery",
-              data: {
-                url:
-                  "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
-                caption: "عنوان عکس 1",
-                alt: "salam in yek alt ast0",
-              },
-            },
+            // {
+            //   type: "header",
+            //   data: {
+            //     text: "عنوان مقاله",
+            //     level: 4,
+            //   },
+            // },
+            // {
+            //   type: "videoFromGallery",
+            //   data: {
+            //     url: "https://mov.tebyan.net/1400/02/lumuwaco_349631.mp4",
+            //     poster:
+            //       "https://img.tebyan.net/big/1400/02//64715021421324510231195146851562553418488.jpg",
+            //   },
+            // },
+            // {
+            //   type: "imgGallery",
+            //   data: {
+            //     url:
+            //       "http://ebrahimmozaffari.ir/demo/wp-content/uploads/2019/12/gloabl-tech.jpg",
+            //     caption: "عنوان عکس 1",
+            //     alt: "salam in yek alt ast0",
+            //   },
+            // },
             //  {
             //    type: "uploaderImg",
             //    data: {
@@ -607,7 +607,7 @@ export default {
     };
   },
   methods: {
-    mymethod(){
+    mymethod() {
       console.log("mymethod fired");
     },
     onInitialized(editor) {
@@ -656,6 +656,54 @@ export default {
               return el.data !== undefined;
             });
             console.log("newArray", newArray);
+
+            var html = "";
+            newArray.forEach(function (block) {
+              switch (block.type) {
+                case "header":
+                  html += `<h${block.data.level} class="text-${block.tunes.anyTuneName.alignment}">${block.data.text}</h${block.data.level}>`;
+                  break;
+                case "paragraph":
+                  html += `<p class="text-${block.tunes.anyTuneName.alignment}">${block.data.text}</p>`;
+                  break;
+                case "delimiter":
+                  html += "<hr />";
+                  break;
+                case "image":
+                  html += `<img class="img-fluid" src="${block.data.file.url}" title="${block.data.caption}" /><br /><em>${block.data.caption}</em>`;
+                  break;
+                case "list":
+                  html += "<ul>";
+                  block.data.items.forEach(function (li) {
+                    html += `<li>${li}</li>`;
+                  });
+                  html += "</ul>";
+                  break;
+                case "imgGallery":
+                  html += '<div class="uploaderwrap custom-file my-3">';
+                  html += `<img class="img-fluid" src="${block.data.url}" alt="${block.data.alt}" title="${block.data.caption}" /><p class="figcaption">${block.data.caption}</p>`;
+                  html += "</div>";
+                  break;
+                case "uploaderImg":
+                  html += '<div class="uploaderwrap custom-file my-3">';
+                  html += `<img class="img-fluid" src="${block.data.url}" alt="${block.data.alt}" title="${block.data.caption}" /><p class="figcaption">${block.data.caption}</p>`;
+                  html += "</div>";
+                  break;
+                case "videoFromGallery":
+                  html += '<div class="videotoolblock"><vue-plyr ref="plyr">';
+                  html += `<video id="video" controls="" playsinline="" data-poster="${block.data.poster}" width="100%" ><source size="720" src="${block.data.url}"></video>`;
+                  html += "</vue-plyr></div>";
+                  break;
+                default:
+                  console.log("Unknown block type", block.type);
+                  console.log(block);
+                  break;
+              }
+              document.getElementById("content").innerHTML = html;
+              //console.log(block);
+            });
+            console.log("html: ", html);
+
             // data.blocks.forEach((element) => {
             //   if (element.data === undefined) {
             //     // delete.data.blocks[key];
@@ -684,9 +732,7 @@ export default {
       }
     },
   },
-  mounted() {
-   
-  },
+  mounted() {},
   computed: {
     GalleryData() {
       return this.$store.getters["app/getGallery"];
@@ -706,6 +752,10 @@ export default {
 </script>
 
 <style lang="scss">
+#content{
+  max-width: 600px;
+  margin: 0 auto;
+}
 .has-error {
   border: solid 1px red;
   color: red;
@@ -750,16 +800,14 @@ export default {
 .svg-icon polygon,
 .svg-icon rect {
   fill: #707684;
-  stroke-width:2 ;
+  stroke-width: 2;
 }
 .svg-icon-upload {
   // width: 1.5em;
   // height: 1.5em;
 }
-.svg-icon-upload path
- {
+.svg-icon-upload path {
   stroke: #ffffff;
- 
 }
 .figcaption {
   position: relative;

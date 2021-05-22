@@ -46,19 +46,18 @@
         <div class="modal-footer d-flex justify-content-start">
           <button
             type="button"
-            class="btn btn-alert"
-            data-dismiss="modal"
-           
+            class="btn btn-danger"
+            data-dismiss="modal"   
           >
             بستن
           </button>
            <button
             type="button"
-            class="btn btn-success"
-            data-dismiss="modal"
-           
+            class="btn btn-success dark" 
+            id="uploadImg"
+            data-dismiss="modal" 
           >
-            بستن
+            آپلود
           </button>
         </div>
       </div>
@@ -87,8 +86,24 @@ export default {
     change({ coordinates, canvas }) {
       console.log({ coordinates, canvas });
     },
-    mymethod(){
-      console.log("dddddddd");
+    uploadCropped(){
+
+      console.log("uploadCropped");
+      //const imgCropped = document.querySelector("#cropedImgBase64");
+     // console.log("imgCropped",imgCropped);
+    //  var cropper = $image.data('cropper')
+var cropper = document.querySelector("#cropedImgBase64").data("cropper");
+ console.log("cropper",cropper);
+      //  let canvas = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 });
+      //  var dataURL = canvas.toDataURL();
+      //  console.log("dataURL",dataURL);
+
+      // let canvas = imgCropped.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 });
+      //         var dataURL = canvas.toDataURL();
+      //          dataURL.replace("data:", "")
+      //           .replace(/^.+,/, "");
+      //          console.log("dataURL",dataURL);
+              //  document.querySelector("#cropedImgBase64").value = dataURL;
     }
   },
   created() {
