@@ -254,7 +254,7 @@ export class UploaderImg {
                 headers: {
                   "Content-Type": "application/json",
                   //"Content-Type": "multipart/form-data",
-                  Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiJlZTIxM2ZjNy1hMDVjLTRkYzYtOTM1My0zNTM3YTUwMWYyMzYiLCJpYXQiOiI1LzIyLzIxIDEwOjI3OjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIxNjYzMDI5LCJleHAiOjE3MDgwNjMwMjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.ux95BRPAr5IQmoi-YieLAj08Z8TDYH-Je8HkIUUWA0Q`,
+                  //Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiJlZTIxM2ZjNy1hMDVjLTRkYzYtOTM1My0zNTM3YTUwMWYyMzYiLCJpYXQiOiI1LzIyLzIxIDEwOjI3OjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIxNjYzMDI5LCJleHAiOjE3MDgwNjMwMjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.ux95BRPAr5IQmoi-YieLAj08Z8TDYH-Je8HkIUUWA0Q`,
                 },
               }
             )
