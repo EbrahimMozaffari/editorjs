@@ -183,18 +183,30 @@ export class UploaderImg {
           // if(cropper){
           //   cropper.destroy();
           // }
-
+          let maxWidth = window.innerWidth;
+          if (maxWidth > 500) {
+            maxWidth = 500;
+          } else {
+            maxWidth = 300;
+          }
+          //maxWidth = maxWidth/2.5;
+          console.log("maxWidth", maxWidth);
           globalCropper = new Cropper(cropimage, {
             aspectRatio: 16 / 9,
+            // responsive:true,
+            background: false,
+            minContainerHeight: 250,
+            minContainerWidth: maxWidth,
             crop(event) {},
           });
-          document.querySelector("#cropedImgBase64").value = globalCropper;
+          // document.querySelector("#cropedImgBase64").value = globalCropper;
         }
 
-        let uploaditsener = document.querySelector("#uploadImg");
-        window.removeEventListener("click", uploaditsener);
-        uploaditsener.addEventListener("click", async() => {
-
+        let uploadlistener = document.querySelector("#uploadImg");
+        window.removeEventListener("click", uploadlistener);
+        uploadlistener.addEventListener("click", async () => {
+          
+          //uploadTxt.classList.add("d-none");
           //loading start
           wrapper.innerHTML = "";
           const div = document.createElement("DIV");
@@ -209,18 +221,23 @@ export class UploaderImg {
           div.appendChild(imgloading);
           wrapper.appendChild(div);
 
-
+          let uploadSvg = document.getElementById("uploadSvg");
+          let uploadTxt = document.getElementById("uploadTxt");
+          uploadSvg.classList.remove("d-none");
           //console.log("global", globalCropper);
           let canvas = globalCropper.getCroppedCanvas({
             maxWidth: 4096,
             maxHeight: 4096,
           });
           var dataURL = canvas.toDataURL();
-          dataURL =  dataURL.replace("data:", "").replace("image/png;base64,", "").replace(/^.+,/, "");
-           console.log("dataURL", dataURL);
-          var ax_title= title.value;
-          var ax_summary= summary.value;
-          var ax_keyword= inputTags.value;
+          dataURL = dataURL
+            .replace("data:", "")
+            .replace("image/png;base64,", "")
+            .replace(/^.+,/, "");
+          //console.log("dataURL", dataURL);
+          var ax_title = title.value;
+          var ax_summary = summary.value;
+          var ax_keyword = inputTags.value;
           // console.log("ax_title",ax_title,ax_summary,ax_keyword)
           let url = await axios
             .post(
@@ -228,7 +245,7 @@ export class UploaderImg {
               {
                 Base64Image: dataURL,
                 Base64SmallImage: "",
-                Keyword:ax_keyword,
+                Keyword: ax_keyword,
                 PicId: "",
                 Summary: ax_summary,
                 Title: ax_title,
@@ -237,11 +254,13 @@ export class UploaderImg {
                 headers: {
                   "Content-Type": "application/json",
                   //"Content-Type": "multipart/form-data",
-                  "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiJlZTIxM2ZjNy1hMDVjLTRkYzYtOTM1My0zNTM3YTUwMWYyMzYiLCJpYXQiOiI1LzIyLzIxIDEwOjI3OjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIxNjYzMDI5LCJleHAiOjE3MDgwNjMwMjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.ux95BRPAr5IQmoi-YieLAj08Z8TDYH-Je8HkIUUWA0Q`,
+                  Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiJlZTIxM2ZjNy1hMDVjLTRkYzYtOTM1My0zNTM3YTUwMWYyMzYiLCJpYXQiOiI1LzIyLzIxIDEwOjI3OjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIxNjYzMDI5LCJleHAiOjE3MDgwNjMwMjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.ux95BRPAr5IQmoi-YieLAj08Z8TDYH-Je8HkIUUWA0Q`,
                 },
               }
             )
             .then((response) => {
+              uploadSvg.classList.add("d-none");
+              //uploadTxt.classList.remove("d-none");
               //console.log("SUCCESS!!", response.data);
               //console.log("picture!!", response.data.data.SummaryPic);
               // return response.data.file.url;
@@ -253,21 +272,23 @@ export class UploaderImg {
             });
 
           //console.log("url====>" + url);
-            //var url111 =false;
+          //var url111 =false;
           if (url) {
             //let res = data.split("++");
             //console.log("url---->",url.data);
-             //var  aaa = JSON.stringify(url.data);
-             //console.log("aaa---->",aaa.UrlPicID);
-             let jsParsed = JSON.parse(url.data);
+            //var  aaa = JSON.stringify(url.data);
+            //console.log("aaa---->",aaa.UrlPicID);
+            let jsParsed = JSON.parse(url.data);
 
-             //console.log("jsss---->",jsParsed.UrlPicID);
+            //console.log("jsss---->",jsParsed.UrlPicID);
             const image = document.createElement("img");
             const caption = document.createElement("input");
             const alt = document.createElement("input");
 
             image.alt = "";
-            image.src = jsParsed.UrlPicID ? `https://img.tebyan.net/${jsParsed.UrlPicID}` : "";
+            image.src = jsParsed.UrlPicID
+              ? `https://img.tebyan.net/${jsParsed.UrlPicID}`
+              : "";
             image.setAttribute("width", "100%");
             image.classList.add("image-tool__image");
             caption.classList.add(
@@ -300,16 +321,13 @@ export class UploaderImg {
             wrapper.appendChild(caption);
             wrapper.appendChild(alt);
           }
-       
-
-
         });
-
       }
     }
 
     function _click() {
       document.getElementById("cropmodalbtn").click();
+    
     }
     return this.wrapper;
   }
@@ -320,8 +338,6 @@ export class UploaderImg {
   _click() {
     document.getElementById("cropmodalbtn").click();
   }
- 
- 
 
   _createImage(data) {
     if (data) {
