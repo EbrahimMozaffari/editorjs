@@ -127,6 +127,7 @@ export class videoFromGallery {
 
     const vuePlyr = document.createElement("vue-plyr");
     vuePlyr.setAttribute("ref", "plyr");
+    vuePlyr.setAttribute("height", "300px");
     //vuePlyr.classList.add("col-12");
 
     const video = document.createElement("video");
@@ -134,8 +135,9 @@ export class videoFromGallery {
     video.setAttribute("controls", "");
     video.setAttribute("playsinline", "");
     video.setAttribute("data-poster", data.poster);
+    
+    video.setAttribute("height", "300px");
     video.setAttribute("width", "100%");
-
     const source = document.createElement("source");
     source.setAttribute("size", "720");
     source.setAttribute("src", data.url);

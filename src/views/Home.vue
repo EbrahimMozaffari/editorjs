@@ -29,7 +29,7 @@
       Launch cropmodal modal
     </button>
     <form action="" id="editorForm" v-on:submit.prevent>
-      <!-- <button class="btn btn-primary" @click="invokeSave">Save</button> -->
+      <button class="btn btn-primary" @click="invokeSave">Save</button>
       <!-- Button trigger modal -->
       <button
         type="button"
@@ -94,6 +94,7 @@ import { MyTool } from "../classes/imageFromGallery";
 import { UploaderImg } from "../classes/uploaderImage";
 import { videoFromGallery } from "../classes/videoFromGallery";
 import { UploaderVideo } from "../classes/uploaderVideo";
+import  {json2html}  from "../classes/json2html";
 
 import Modal from "./modal";
 import VideoModal from "./videoGalleryModal";
@@ -656,7 +657,9 @@ export default {
               return el.data !== undefined;
             });
             console.log("newArray", newArray);
-
+            let newHtml = json2html(newArray);
+            console.log("newHtml",newHtml)
+/*
             var html = "";
             newArray.forEach(function (block) {
               switch (block.type) {
@@ -701,8 +704,8 @@ export default {
               }
               document.getElementById("content").innerHTML = html;
               //console.log(block);
-            });
-            console.log("html: ", html);
+            });*/
+           // console.log("html: ", html);
 
             // data.blocks.forEach((element) => {
             //   if (element.data === undefined) {
@@ -862,6 +865,9 @@ export default {
   border-radius: 5px;
   border: solid 1px #c7c4c4;
   margin-top: 5px;
+}
+video{
+  max-height: 350px;
 }
 @import "@/assets/scss/style";
 </style>

@@ -39,7 +39,7 @@
               >
                 <img
                   class="imageGallery"
-                  :src="item.poster"
+                  :src="`https://img.tebyan.net/${item.MediaPicUrl}`"
                   width="65%"
                   alt=""
                 />
@@ -48,7 +48,9 @@
                   type="button"
                   data-dismiss="modal"
                   class="btn btn-primary copyBtn"
-                  v-clipboard:copy="`${item.url}++${item.poster}`"
+                  v-clipboard:copy="
+                    `https://mov.tebyan.net/${item.MediaUrl}++https://img.tebyan.net/${item.MediaPicUrl}`
+                  "
                   v-clipboard:success="onCopy"
                   v-clipboard:error="onError"
                   title="افزودن"
@@ -147,8 +149,8 @@ export default {
     },
     next: function (event) {
       event.preventDefault();
-      let totalImageCount = this.$store.state.app.totalImageCount;
-      //console.log("totalImageCount", totalImageCount);
+      let totalVideoCount = this.$store.state.app.totalVideoCount;
+      // console.log("totalVideoCount--> next", totalVideoCount);
       if (this.nextCount > 0) {
         this.prevCount = this.prevCount - 12;
         this.nextCount = this.nextCount - 12;
@@ -160,32 +162,33 @@ export default {
       let jsondata = {
         Order: "descending",
         Skip: skip,
-        Sort: "picID",
+        Sort: "musicid",
         Take: 12,
       };
 
-      this.$store.dispatch("app/fetchGalleryData", {
+      this.$store.dispatch("app/fetchVideoGalleryData", {
         keyword: this.mySearchText,
         sliding: jsondata,
       });
     },
     prev: function (event) {
       event.preventDefault();
-      let totalImageCount = this.$store.state.app.totalImageCount;
-      //console.log("totalImageCount", totalImageCount);
+      let totalVideoCount = this.$store.state.app.totalVideoCount;
+
       let skip = this.prevCount;
+      // console.log("totalVideoCount --> prev",skip,"--", totalVideoCount);
       let jsondata = {
         Order: "descending",
         Skip: skip,
-        Sort: "picID",
+        Sort: "musicid",
         Take: 12,
       };
 
-      this.$store.dispatch("app/fetchGalleryData", {
-        keyword: this.mySearchText,
+      this.$store.dispatch("app/fetchVideoGalleryData", {
+        Title: this.mySearchText,
         sliding: jsondata,
       });
-      if (totalImageCount > this.prevCount) {
+      if (totalVideoCount > this.prevCount) {
         this.prevCount = this.prevCount + 12;
         this.nextCount = this.nextCount + 12;
       } else {
@@ -203,7 +206,7 @@ export default {
       mines[len - 1].focus();
 
       setTimeout(() => {
-        document.getElementById("imageUrl").value = "";
+        document.getElementById("videoUrl").value = "";
       }, 1500);
     });
   },
@@ -211,11 +214,11 @@ export default {
     mySearchText: function () {
       console.log("this is mySearchText", this.mySearchText);
       if (this.mySearchText !== "") {
-        this.$store.dispatch("app/fetchGalleryData", {
-          keyword: this.mySearchText,
+        this.$store.dispatch("app/fetchVideoGalleryData", {
+          Title: this.mySearchText,
         });
       } else {
-        this.$store.dispatch("app/fetchGalleryData");
+        this.$store.dispatch("app/fetchVideoGalleryData");
       }
     },
   },

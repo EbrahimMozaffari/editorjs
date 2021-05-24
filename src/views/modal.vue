@@ -167,7 +167,7 @@ export default {
     prev: function (event) {
       event.preventDefault();
       let totalImageCount = this.$store.state.app.totalImageCount;
-      console.log("totalImageCount", totalImageCount);
+      //console.log("totalImageCount", totalImageCount);
       let skip = this.prevCount;
       let jsondata = {
         Order: "descending",

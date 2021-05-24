@@ -33,6 +33,18 @@ const routes = [
     name: 'CroperTest',
 
     component: () => import('../views/croperTest.vue')
+  },
+  {
+    path: '/differ',
+    name: 'differ',
+
+    component: () => import('../views/htmldiff.vue')
+  },
+  {
+    path: '/newdiffer',
+    name: 'newdiffer',
+
+    component: () => import('../views/newdiffer.vue')
   }
 ]
 
