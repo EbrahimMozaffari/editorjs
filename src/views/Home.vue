@@ -805,10 +805,7 @@ export default {
   fill: #707684;
   stroke-width: 2;
 }
-.svg-icon-upload {
-  // width: 1.5em;
-  // height: 1.5em;
-}
+
 .svg-icon-upload path {
   stroke: #ffffff;
 }

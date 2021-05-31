@@ -125,6 +125,7 @@ export const actions = {
       };
     }
     try {
+      //console.log("jsondata",jsondata);
       let data = await axios
         .post(
           "https://apiadmin.tebyan.net/music/GetFilteredMusicForAdmin",
@@ -133,7 +134,7 @@ export const actions = {
             headers: {
               "Content-Type": "application/json",
               //"Content-Type": "multipart/form-data",
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiJhMDUzZGZiYy1kMDc4LTQxMjQtYTlhNS01Y2FkMTQzMzgxYzgiLCJpYXQiOiI1LzIzLzIxIDE6NDM6MzMgUE0iLCJJZCI6NDIwLCJuYmYiOjE2MjE3NjEyMTMsImV4cCI6MTcwODE2MTIxMywiaXNzIjoiU2VsZiIsImF1ZCI6IkFwaUNsaWVudHMifQ.tXGGpF4pWr72YBaOlVD16mtSYA-EI6Ynfa-xmxyrQD8`,
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI1NDdhZDI2OS0wZDc0LTQzOTgtYmJhYS1kOWQ3MzdhMTY4MzciLCJpYXQiOiI1LzMwLzIxIDEwOjAyOjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIyMzUyNzI5LCJleHAiOjE3MDg3NTI3MjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.veOeATuoXcntvN3HvAL3ede7Bpb6crZ8RqMHS8CFtYs`,
             },
           }
         )

@@ -46,11 +46,13 @@ export class UploaderVideo {
         Poster.classList.add("custom-file-input");
         Poster.setAttribute("id", "poster");
         Poster.setAttribute("accept", "image/*");
+        Poster.disabled = true;
 
         const posterlabel = document.createElement("label");
         posterlabel.classList.add("custom-file-label");
         posterlabel.setAttribute("for", "poster");
         posterlabel.innerText = "پوستر انتخاب نمائید";
+        
 
         const div2 = document.createElement("div");
         div2.classList.add("custom-file");
@@ -67,7 +69,7 @@ export class UploaderVideo {
         label.setAttribute("for", "fileVideo");
         label.innerText = " فایل ویدئو را انتخاب نمائید";
 
-        /*
+
         const label1 = document.createElement("label");
         label1.classList.add(
           "text-right",
@@ -93,9 +95,9 @@ export class UploaderVideo {
             inputTags.classList.add("has-error");
           }
           if (title.value && summary.value && inputTags.value) {
-            fileImg.disabled = false;
+            Poster.disabled = false;
           } else {
-            fileImg.disabled = true;
+            Poster.disabled = true;
           }
         });
         const summary = document.createElement("input");
@@ -113,9 +115,9 @@ export class UploaderVideo {
             summary.classList.add("has-error");
           }
           if (title.value && summary.value && inputTags.value) {
-            fileImg.disabled = false;
+            Poster.disabled = false;
           } else {
-            fileImg.disabled = true;
+            Poster.disabled = true;
           }
         });
         const title = document.createElement("input");
@@ -133,31 +135,13 @@ export class UploaderVideo {
             title.classList.add("has-error");
           }
           if (title.value && summary.value && inputTags.value) {
-            fileImg.disabled = false;
+            Poster.disabled = false;
           } else {
-            fileImg.disabled = true;
+            Poster.disabled = true;
           }
         });
-        */
+       
 
-        // inputTag.setAttribute("v-model", "tags");
-        // inputHide.setAttribute("v-model", "tags");
-        // inputHide.setAttribute("type", "text");
-
-        // fileImg.setAttribute("for", "validatedCustomFile");
-
-        // caption.classList.add(
-        //   "cdx-input",
-        //   "image-tool__caption",
-        //   "col-12",
-        //   "col-md-6"
-        // );
-
-        // const input = document.createElement("input");
-        // input.placeholder = "آدرس عکس خود را در این قسمت وارد نمائید...";
-        // input.value = this.data && this.data.url ? this.data.url : "";
-        // input.classList.add("cdx-input", "image-tool__caption","focusInput");
-        // input.setAttribute("id", "myInputfocus");
 
         div1.appendChild(posterlabel);
         div1.appendChild(Poster);
@@ -166,6 +150,9 @@ export class UploaderVideo {
 
         this.wrapper.appendChild(div1);
         this.wrapper.appendChild(div2);
+        this.wrapper.appendChild(title);
+        this.wrapper.appendChild(summary);
+        this.wrapper.appendChild(inputTags);
         let posterFile = this.posterFile;
         //let getbase64 = this._getBase64();
         Poster.addEventListener("change", posterFunction, true);
@@ -221,101 +208,86 @@ export class UploaderVideo {
           // get a reference to the file
           const file = posterFile[0];
 
-          let base64Img = await _getBase64(file)
-          .then((response)=>{
-            return response.replace("data:", "")
-            .replace(/^.+,/, "");;
-          });
-          console.log("base",base64Img);
+          // let base64Img = await _getBase64(file)
+          // .then((response)=>{
+          //   return response.replace("data:", "")
+          //   .replace(/^.+,/, "");;
+          // });
+          // console.log("base",base64Img);
+          // var ax_title = title.value;
+          // var ax_summary = summary.value;
+          // var ax_keyword = inputTags.value;
+          var bodyFormData = new FormData();
+          bodyFormData.append('Keyword',  inputTags.value);
+          bodyFormData.append('Summary',  summary.value);
+          bodyFormData.append('Title', title.value);
+          console.log("videoFile[0]",videoFile[0]);
+          bodyFormData.append('videoFileStream', videoFile[0]);
+          bodyFormData.append('imageFileStream', posterFile[0]);
          
+          let url = await axios
+          .post(
+            "https://apiadmin.tebyan.net/music/EditMuisc",
+            bodyFormData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data" ,
+                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI1NDdhZDI2OS0wZDc0LTQzOTgtYmJhYS1kOWQ3MzdhMTY4MzciLCJpYXQiOiI1LzMwLzIxIDEwOjAyOjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIyMzUyNzI5LCJleHAiOjE3MDg3NTI3MjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.veOeATuoXcntvN3HvAL3ede7Bpb6crZ8RqMHS8CFtYs`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log("SUCCESS!!", response.data);
+
+            return response.data;
+
+          })
+          .catch(function(error) {
+            console.log("FAILURE!!", error);
+          });
+
+    console.log("url",url.data)
+        if(url) {
+          //let res = data.split("++");
+          //console.log("url---->",url.data);
+          //var  aaa = JSON.stringify(url.data);
+          //console.log("aaa---->",aaa.UrlPicID);
+          let jsParsed = JSON.parse(url.data);
+console.log("jsParsed",jsParsed)
+
+          const vuePlyr = document.createElement("vue-plyr");
+          vuePlyr.setAttribute("ref", "plyr");
+          vuePlyr.setAttribute("height", "300px");
+          //vuePlyr.classList.add("col-12");
+      
+          const video = document.createElement("video");
+          video.setAttribute("id", "video");
+          video.setAttribute("controls", "");
+          video.setAttribute("playsinline", "");
+         
+          video.setAttribute("data-poster", `https://img.tebyan.net/${jsParsed.UrlPicID}`);
+          
+          video.setAttribute("height", "300px");
+          video.setAttribute("width", "100%");
+          const source = document.createElement("source");
+          source.setAttribute("size", "720");
+          source.setAttribute("src", `https://mov.tebyan.net/${jsParsed.UrlMusicID}`);
+      
+           wrapper.innerHTML = "";
+           video.appendChild(source);
+           vuePlyr.appendChild(video);
+           wrapper.appendChild(vuePlyr);
+          
+
+        }
           
           /*
          
-          var ax_title = title.value;
-          var ax_summary = summary.value;
-          var ax_keyword = inputTags.value;
+       
   
           
 
-          let url = await axios
-            .post(
-              "https://apiadmin.tebyan.net/Image/CreateImageFullOutput",
-              {
-                Base64Image: base64Img,
-                Base64SmallImage: "",
-                Keyword: ax_keyword,
-                PicId: "",
-                Summary: ax_summary,
-                Title: ax_title,
-              },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  //"Content-Type": "multipart/form-data",
-                  Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI5MDQ5Mzc0Ni1jOTg1LTQ5MDgtOWM4My1jZDcyZTZhZDAwYzIiLCJpYXQiOiI1LzE1LzIxIDEyOjMzOjQzIFBNIiwiSWQiOjQyMCwibmJmIjoxNjIxMDY1ODIzLCJleHAiOjE3MDc0NjU4MjMsImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.32Ajhu6yslM-LsaL1-3humdOud0LMAaw-Quac-rGqps`,
-                },
-              }
-            )
-            .then((response) => {
-              //console.log("SUCCESS!!", response.data);
-
-              return response.data;
-
-            })
-            .catch(function(error) {
-              console.log("FAILURE!!", error);
-            });
-
-      
-
-          if (url) {
-            //let res = data.split("++");
-            //console.log("url---->",url.data);
-            //var  aaa = JSON.stringify(url.data);
-            //console.log("aaa---->",aaa.UrlPicID);
-            let jsParsed = JSON.parse(url.data);
-
-            //console.log("jsss---->",jsParsed.UrlPicID);
-            const image = document.createElement("img");
-            const caption = document.createElement("input");
-            const alt = document.createElement("input");
-
-            image.alt = "";
-            image.src = jsParsed.UrlPicID
-              ? `https://img.tebyan.net/${jsParsed.UrlPicID}`
-              : "";
-            image.setAttribute("width", "100%");
-            image.classList.add("image-tool__image");
-            caption.classList.add(
-              "cdx-input",
-              "image-tool__caption",
-              "col-12",
-              "col-md-6"
-            );
-            alt.classList.add(
-              "cdx-input",
-              "image-tool__caption",
-              "col-12",
-              "col-md-6",
-              "validForm"
-            );
-            alt.setAttribute("required", "true");
-            alt.addEventListener("keyup", () => {
-              if (alt.value) {
-                alt.classList.remove("has-error");
-              } else {
-                alt.classList.add("has-error");
-              }
-            });
-            caption.value = jsParsed.SummaryPic ? jsParsed.SummaryPic : "";
-            alt.value = "";
-            caption.placeholder = "نوشتن توضیحات برای عکس (اختیاری)";
-            alt.placeholder = "نوشتن alt برای عکس (اجباری)";
-            wrapper.innerHTML = "";
-            wrapper.appendChild(image);
-            wrapper.appendChild(caption);
-            wrapper.appendChild(alt);
-          }
+          
           */
         }
 
@@ -437,17 +409,22 @@ export class UploaderVideo {
   // }
 
   save(blockContent) {
-    const image = blockContent.querySelector("img");
-    const caption = blockContent.querySelectorAll("input");
+    
+    const video = blockContent.querySelector("video");
+    const source = blockContent.querySelector("source");
+    //console.log("source"+source);
+    //const alt = blockContent.querySelector("input");
+    // console.log("this.wrapper",this.wrapper);
 
-    if (image) {
+    if (video) {
       return {
-        url: image.src,
-        caption: caption[0].value,
-        alt: caption[1].value,
+        url: source.src,
+        poster: video.getAttribute("data-poster"),
+       
       };
     } else {
       this.wrapper.innerHTML = "";
+
 
       // this.wrapper.remove();
     }
