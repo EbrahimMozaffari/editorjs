@@ -232,7 +232,7 @@ export class UploaderVideo {
             {
               headers: {
                 "Content-Type": "multipart/form-data" ,
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI1NDdhZDI2OS0wZDc0LTQzOTgtYmJhYS1kOWQ3MzdhMTY4MzciLCJpYXQiOiI1LzMwLzIxIDEwOjAyOjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIyMzUyNzI5LCJleHAiOjE3MDg3NTI3MjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.veOeATuoXcntvN3HvAL3ede7Bpb6crZ8RqMHS8CFtYs`,
+               // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQyMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiI0MjAiLCJzdWIiOiI0MjAiLCJqdGkiOiI1NDdhZDI2OS0wZDc0LTQzOTgtYmJhYS1kOWQ3MzdhMTY4MzciLCJpYXQiOiI1LzMwLzIxIDEwOjAyOjA5IEFNIiwiSWQiOjQyMCwibmJmIjoxNjIyMzUyNzI5LCJleHAiOjE3MDg3NTI3MjksImlzcyI6IlNlbGYiLCJhdWQiOiJBcGlDbGllbnRzIn0.veOeATuoXcntvN3HvAL3ede7Bpb6crZ8RqMHS8CFtYs`,
               },
             }
           )
